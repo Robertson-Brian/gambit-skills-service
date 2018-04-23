@@ -4,15 +4,15 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 import feign.RequestLine;
 
-
 /**
- * PUT IN THE SERVICE WE ARE CONNECTING TO 
+ * TODO Service we are connecting to.
+ * 
  * @author Delano
  *
  */
 @FeignClient("")
 public interface EurekaClient {
-	
+
 	@RequestLine("GET")
 	public String getTestMessage();
 
