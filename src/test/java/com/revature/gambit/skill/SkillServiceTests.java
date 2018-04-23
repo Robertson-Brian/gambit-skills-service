@@ -35,7 +35,7 @@ public class SkillServiceTests {
 	public void testFindAllByIsActive() {
 		Iterable<Skill> skills = skillService.findAllActive();
 		assertEquals(((List<Skill>) skills).size(), 40);
-	}
+	} 
 
 	@Test
 	public void testSaveSkill() {
