@@ -17,7 +17,9 @@ public class SkillService {
 
     public Skill create(Skill skill) { return this.skillRepository.save(skill); }
 
-    public Skill findById(int id) { return this.skillRepository.findBySkillID(id); }
+    public Skill findById(int id) { 
+    	return this.skillRepository.findBySkillID(id); 
+    }
     
     @Transactional
 	public Skill saveSkill(Skill skill) {

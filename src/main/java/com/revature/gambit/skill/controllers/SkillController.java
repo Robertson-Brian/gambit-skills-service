@@ -35,12 +35,12 @@ public class SkillController {
     	return this.skillService.findAllActive();
     }
 
-    @PutMapping
+    @PutMapping("/skill")
     public void update(@RequestBody Skill updatedSkill) {
         skillService.saveSkill(updatedSkill);
     }
 
-    @GetMapping("{name}")
+    @GetMapping("/skill/{name}")
     public Skill findById(@PathVariable String name) {
     	return skillService.findByName(name);
     }
