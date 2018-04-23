@@ -2,6 +2,8 @@ package com.revature.gambit.skill;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.junit.Test;
@@ -15,7 +17,7 @@ import com.revature.gambit.skill.services.SkillService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SkillServiceTests {
-
+	
 	@Autowired
 	private SkillService skillService;
 
@@ -68,6 +70,13 @@ public class SkillServiceTests {
 		Skill sk = new Skill(1, "Java", true);
 		System.out.println(sk.getSkillID());
 		assertEquals(sk.getSkillName(), "Java");
+	}
+	
+	@Test
+	public void testMain() {
+		String[] test = new String[0];
+		Application.main(test);
+		assertTrue(true);
 	}
 
 }
