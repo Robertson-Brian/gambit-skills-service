@@ -35,8 +35,6 @@ public interface SkillRepository extends JpaRepository<Skill, Integer> {
 	 */
 	Skill findBySkillID(int id);
 
-	boolean deleteBySkillName(String name);
-	
 	@Modifying
 	@Query(value="update skill e set e.is_active=false where e.skill_name= :skill_name", nativeQuery=true)
 	Skill deleteSoftly(@Param("skill_name")String name);
@@ -47,7 +45,7 @@ public interface SkillRepository extends JpaRepository<Skill, Integer> {
 	 * @param name
 	 *            Name of the skill to delete.
 	 */
-	void deleteBySkillName(String name);
+	boolean deleteBySkillName(String name);
 
 	/**
 	 * Retrieves all skills, including the inactive ones.

@@ -13,9 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -76,5 +74,15 @@ public class SkillTypeServiceTests {
 		assertTrue(tstSkillType.isIs_core());
 		skillTypeRepository.delete(tstSkillType);
 	}
+
+	@Test
+	public void testDeleteSkillTypeFunction() {
+		Iterable<SkillType> skillTypes = this.skillTypeService.findByAll();
+		this.skillTypeService.deleteBySkillTypeName("PEGA");
+		Iterable<SkillType> skillTypess = this.skillTypeService.findByAll();
+		assertNotEquals(skillTypes, skillTypess);
+	}
+
+
 	
 }
