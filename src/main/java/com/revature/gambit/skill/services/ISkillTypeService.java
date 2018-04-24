@@ -49,6 +49,6 @@ public interface ISkillTypeService {
 	 * @param name
 	 *            Name of the skill type to delete.
 	 */
-	public void deleteBySkillTypeName(String name);
+	public boolean deleteBySkillTypeName(String name);
 
 }

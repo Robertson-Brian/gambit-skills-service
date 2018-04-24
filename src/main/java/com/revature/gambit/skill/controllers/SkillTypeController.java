@@ -61,7 +61,9 @@ public class SkillTypeController {
 	 */
 	@GetMapping("/skilltype")
 	public ResponseEntity<Iterable<SkillType>> findAll() {
-		return new ResponseEntity<Iterable<SkillType>>(this.skillTypeService.findByAll(), HttpStatus.OK);
+		ResponseEntity<Iterable<SkillType>> re = new ResponseEntity<Iterable<SkillType>>(this.skillTypeService.findByAll(), HttpStatus.OK);
+		System.out.println(re);
+		return re;
 	}
 
 	/**
@@ -123,10 +125,12 @@ public class SkillTypeController {
 	 *            Name of the skill type to delete.
 	 * @return HTTP status code 202 (ACCEPTED).
 	 */
-	@DeleteMapping("/skilltype/{name}")
-	public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable String name) {
-		iskillTypeService.deleteBySkillTypeName(name);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
+   @DeleteMapping("/skilltype/{name}")
+   public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable String name) {
+   		skillTypeService.deleteBySkillTypeName(name);
+   		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+   }
+
+
 
 }

@@ -48,6 +48,9 @@ public interface ISkillService {
 	 * @return Skill that was added.
 	 */
 	public Skill saveSkill(Skill skill);
+	
+	public Skill deleteSoftly(String name);
+
 
 	/**
 	 * Deletes a skill based on its name.
@@ -55,6 +58,7 @@ public interface ISkillService {
 	 * @param name
 	 *            Name of the skill to delete.
 	 */
-	public void deleteSkillViaName(String name);
+	public boolean deleteSkillViaName(String name);
+
 
 }
