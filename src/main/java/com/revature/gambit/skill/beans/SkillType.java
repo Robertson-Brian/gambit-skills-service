@@ -1,8 +1,5 @@
 package com.revature.gambit.skill.beans;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 import javax.persistence.*;
 import java.util.List;
 

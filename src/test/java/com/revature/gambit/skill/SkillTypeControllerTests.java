@@ -1,15 +1,12 @@
 package com.revature.gambit.skill;
 
 
-import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.gambit.skill.services.SkillTypeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.revature.gambit.skill.beans.SkillType;
-import com.revature.gambit.skill.controllers.SkillTypeController;
-
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.google.gson.Gson;
+import com.revature.gambit.skill.beans.SkillType;
+import com.revature.gambit.skill.controllers.SkillTypeController;
+import com.revature.gambit.skill.services.SkillTypeService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -68,7 +66,7 @@ public class SkillTypeControllerTests {
 
         Iterable<SkillType> skills = Arrays.asList(skill1,skill2);
 
-        when(skillTypeService.findBySkillTypeName("Java")).thenReturn(((List<SkillType>) skills).get(0));
+        when(skillTypeService.findBySkillTypeName("Java")).thenReturn( skill1);
         when(skillTypeService.findBySkillTypeName("Fortran")).thenReturn(((List<SkillType>) skills).get(1));
 
 		mvc.perform(MockMvcRequestBuilders.get("/skilltype/{name}", "Java")
@@ -93,14 +91,14 @@ public class SkillTypeControllerTests {
     public void putSkillType() throws Exception{
 
         SkillType skill1 = new SkillType(100, "Java", "I can code in Java", true, true);
-        ObjectMapper mapper =  new ObjectMapper();
-        String requestJson = mapper.writeValueAsString(skill1);
+        Gson gson = new Gson();
+        String json = gson.toJson(skill1);
 
 
         when(skillTypeService.update(skill1, "Java")).thenReturn(true);
 
         mvc.perform(MockMvcRequestBuilders.put("/skilltype/{name}", "Java")
-                .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestJson)
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
 
@@ -110,25 +108,25 @@ public class SkillTypeControllerTests {
     @Test
     public void putSkillTypeFailed() throws Exception{
 
-        SkillType skill1 = new SkillType(100, "Java", "I can code in Java", true, true);
-        ObjectMapper mapper =  new ObjectMapper();
-        String requestJson = mapper.writeValueAsString(skill1);
+    	SkillType skill1 = new SkillType(100, "Java", "I can code in Java", true, true);
+        Gson gson = new Gson();
+        String json = gson.toJson(skill1);
 
         when(skillTypeService.update(skill1, "Jv")).thenReturn(false);
 
         mvc.perform(MockMvcRequestBuilders.put("/skilltype/{name}", "Jv")
-                .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestJson)
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
 /*	
 	@Test
-	public void testDeleteSkillTypeFunction() {
-		Iterable<SkillType> skillTypes = this.skillTypeService.findByAll();
-		this.skillTypeService.deleteBySkillTypeName("PEGA");
-		Iterable<SkillType> skillTypess = this.skillTypeService.findByAll();
-		assertNotEquals(skillTypes, skillTypess);
+	public void testDeleteSkillTypeFunction() throws Exception {
+		when((skillTypeService).deleteBySkillTypeName("JTA")).thenReturn(true);
+	    mvc.perform(MockMvcRequestBuilders.delete("/skilltype/{name}", "JTA")
+	             .accept(MediaType.APPLICATION_JSON))
+	             .andExpect(status().isAccepted());
 	}
 */
 }

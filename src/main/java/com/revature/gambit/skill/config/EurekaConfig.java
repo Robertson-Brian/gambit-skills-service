@@ -25,6 +25,7 @@ public class EurekaConfig {
 		return "ok";
 	}
 
+	@SuppressWarnings("unused")
 	private String myFallback() {
 
 		return "whoooops";

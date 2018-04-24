@@ -3,6 +3,9 @@ package com.revature.gambit.skill.repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.revature.gambit.skill.beans.Skill;
@@ -32,13 +35,17 @@ public interface SkillRepository extends JpaRepository<Skill, Integer> {
 	 */
 	Skill findBySkillID(int id);
 
+	@Modifying
+	@Query(value="update skill e set e.is_active=false where e.skill_name= :skill_name", nativeQuery=true)
+	Skill deleteSoftly(@Param("skill_name")String name);
+
 	/**
 	 * Deletes a skill based on the skill name.
 	 * 
 	 * @param name
 	 *            Name of the skill to delete.
 	 */
-	void deleteBySkillName(String name);
+	boolean deleteBySkillName(String name);
 
 	/**
 	 * Retrieves all skills, including the inactive ones.

@@ -13,9 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -29,10 +27,10 @@ public class SkillTypeServiceTests {
 
 	@Test
 	public void testCreate() {
-		int sizeOfList = ((List)skillTypeService.findByAll()).size();
+		int sizeOfList = ((List<?>)skillTypeService.findByAll()).size();
 		SkillType tstSkillType = new SkillType("Testing", "Testing Desc", true, true);
 		skillTypeService.create(tstSkillType);
-		assertTrue(((List)skillTypeService.findByAll()).size() > sizeOfList);
+		assertTrue(((List<?>)skillTypeService.findByAll()).size() > sizeOfList);
 		skillTypeRepository.delete(tstSkillType);
 	}
 
@@ -76,11 +74,13 @@ public class SkillTypeServiceTests {
 		assertTrue(tstSkillType.isIs_core());
 		skillTypeRepository.delete(tstSkillType);
 	}
-	
+
 	@Test
-	public void testSkillTypeHash() {
-		SkillType tstSkillType = new SkillType("Testing", "Testing Desc", true, true);
-		assertEquals(tstSkillType.hashCode(), -275199279);
+	public void testDeleteSkillTypeFunction() {
+		Iterable<SkillType> skillTypes = this.skillTypeService.findByAll();
+		this.skillTypeService.deleteBySkillTypeName("PEGA");
+		Iterable<SkillType> skillTypess = this.skillTypeService.findByAll();
+		assertNotEquals(skillTypes, skillTypess);
 	}
 	
 }

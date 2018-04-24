@@ -19,8 +19,6 @@ import com.revature.gambit.skill.beans.Skill;
 import com.revature.gambit.skill.services.ISkillService;
 import com.revature.gambit.skill.services.SkillService;
 
-import java.net.*;
-
 /**
  * Controller that will handle requests for the skill service.
  */
@@ -37,6 +35,7 @@ public class SkillController {
 	/**
 	 * Interface that contains all CRUD methods for skill.
 	 */
+	@SuppressWarnings("unused")
 	@Autowired
 	private ISkillService iskillService;
 
@@ -88,20 +87,18 @@ public class SkillController {
 		this.skillService.saveSkill(updatedSkill);
 		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
-
+	
 	/**
-	 * Handles incoming DELETE request that will remove a skill from
-	 * the system.
-	 * 
+	 * Hard delete here sole for convenience. Use update to do soft deletes. 
 	 * @param name
-	 *            Name of the skill to be deleted.
-	 * @return HTTP status code 202 (ACCEPTED).
+	 * @return
 	 */
-	@DeleteMapping("/skill/{name}")
-	public ResponseEntity<Void> deleteSkillofName(@PathVariable String name) {
-		iskillService.deleteSkillViaName(name);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
+    @DeleteMapping("/skill/{name}")
+    public ResponseEntity<Void> deleteSkillofName(@PathVariable String name) {
+    		skillService.deleteSkillViaName(name);
+    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
+
 
 	/**
 	 * Handles incoming GET request that grabs a specific skill.
@@ -111,6 +108,7 @@ public class SkillController {
 	 * @return Skill along with HTTP status code 200 (OK) if found, HTTP status code
 	 *         404 (NOT FOUND) otherwise.
 	 */
+
 	@GetMapping("/skill/{name}")
 	public ResponseEntity<Skill> findByName(@PathVariable String name) {
 		try {

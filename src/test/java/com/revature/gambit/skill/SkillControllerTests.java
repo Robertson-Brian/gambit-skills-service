@@ -4,12 +4,14 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
+import java.util.List;
+
+import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,20 +39,84 @@ public class SkillControllerTests {
 	public void setUp() throws Exception {
 		mvc = MockMvcBuilders.standaloneSetup(skillController).build();
 	}
-	
+
 	@Test
-	public void getSkillType() throws Exception{
+	public void postSkill() throws Exception {
+		Skill skill = new Skill(101, "Fortran", true);
+		Gson gson = new Gson();
+		String json = gson.toJson(skill);
+		when(skillService.create(skill)).thenReturn(skill);
 
-		Skill skill1 = new Skill(100, "Java", true);
-		Skill skill2 = new Skill(101, "Fortran", true);
+		mvc.perform(MockMvcRequestBuilders.post("/skill/")
+				.contentType(MediaType.APPLICATION_JSON).content(json)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated());
+	}
 
-		Iterable<Skill> skills = Arrays.asList(skill1,skill2);
+	@Test
+	public void getSkills() throws Exception {
+		Skill skill1 = new Skill(99, "Javas", true);
+		Skill skill2 = new Skill(100, "Javas2", false);
+		Iterable<Skill> skills = Arrays.asList(skill1, skill2);
 
-		when(skillService.findAll()).thenReturn((Iterable<Skill>) skills);
-	 
+		when(skillService.findAll()).thenReturn((List<Skill>) skills);
+
 		mvc.perform(MockMvcRequestBuilders.get("/skill")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
+	}
 
+	@Test
+	public void getSkillByName() throws Exception {
+		Skill skill1 = new Skill(99, "Javas", true);
+		Skill skill2 = new Skill(100, "Javas2", false);
+
+		when(skillService.findByName("Javas")).thenReturn( skill1);
+		when(skillService.findByName("Javas2")).thenReturn(skill2);
+
+		mvc.perform(MockMvcRequestBuilders.get("/skill/{name}", "Javas")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
+		mvc.perform(MockMvcRequestBuilders.get("/skill/{name}", "Javas2")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void getSkillIsActive() throws Exception {
+		Skill skill1 = new Skill(99, "Javas", true);
+		Iterable<Skill> active = Arrays.asList(skill1);
+
+		when(skillService.findAllActive()).thenReturn((List<Skill>) active);
+
+		mvc.perform(MockMvcRequestBuilders.get("/skill/active")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void putSkill() throws Exception {
+		Skill skill1 = new Skill(99, "Javas", true);
+		Gson gson = new Gson();
+		String json = gson.toJson(skill1);
+
+		when(skillService.saveSkill(skill1)).thenReturn(skill1);
+
+		mvc.perform(MockMvcRequestBuilders.put("/skill")
+				.contentType(MediaType.APPLICATION_JSON).content(json)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted());
+	}
+	
+	
+	@Test
+	public void testDeleteSkillFunction() throws Exception {
+		Skill skill1 = new Skill(100, "Java", true);
+		when((skillService).findByName("Java")).thenReturn(skill1);
+		when((skillService).deleteSkillViaName("Java")).thenReturn(true);
+	    mvc.perform(MockMvcRequestBuilders.delete("/skill/{name}", "Java")
+	             .accept(MediaType.APPLICATION_JSON))
+	             .andExpect(status().isAccepted());
 	}
 }

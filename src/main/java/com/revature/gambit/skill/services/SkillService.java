@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 import com.revature.gambit.skill.beans.Skill;
 import com.revature.gambit.skill.repo.SkillRepository;
@@ -75,6 +74,13 @@ public class SkillService implements ISkillService {
 	public Skill saveSkill(Skill skill) {
 		return skillRepository.saveAndFlush(skill);
 	}
+	
+	@Override
+	@Transactional
+	public Skill deleteSoftly(String name) {
+		Skill skill = findByName(name);
+		return skillRepository.saveAndFlush(skill);
+	}
 
 	/**
 	 * Deletes a skill based on its name.
@@ -83,8 +89,13 @@ public class SkillService implements ISkillService {
 	 *            Name of the skill to delete.
 	 */
 	@Override
-	public void deleteSkillViaName(String name) {
-		skillRepository.delete(findByName(name));
+	@Transactional
+	public boolean deleteSkillViaName(String name) {
+		if (findByName(name) instanceof Skill) {
+			skillRepository.delete(findByName(name));
+			return true;
+		}
+		return false;
 	}
 
 }

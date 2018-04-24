@@ -11,6 +11,7 @@ public class SkillDaoImpl implements SkillDao {
 	
 	@PersistenceContext
 	private EntityManager em;
+	@SuppressWarnings("unused")
 	private JpaEntityInformation<Integer, Skill> skillInfo;
 
 	@Override

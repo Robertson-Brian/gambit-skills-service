@@ -2,8 +2,6 @@ package com.revature.gambit.skill;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
 import org.junit.Test;
@@ -70,18 +68,5 @@ public class SkillServiceTests {
 		Skill sk = new Skill(1, "Java", true);
 		assertEquals(sk.getSkillName(), "Java");
 	}
-	
-	@Test
-	public void testSkillHashCode() {
-		Skill sk = new Skill(1, "Java", true);
-		assertEquals(sk.hashCode(), 3514319);
-	}
-	
-/*	@Test
-	public void testMain() {
-		String[] test = new String[0];
-		Application.main(test);
-		assertTrue(true);
-	}
-*/
+
 }
