@@ -68,15 +68,20 @@ public class SkillServiceTests {
 	@Test
 	public void getSkillByName() {
 		Skill sk = new Skill(1, "Java", true);
-		System.out.println(sk.getSkillID());
 		assertEquals(sk.getSkillName(), "Java");
 	}
 	
 	@Test
+	public void testSkillHashCode() {
+		Skill sk = new Skill(1, "Java", true);
+		assertEquals(sk.hashCode(), 3514319);
+	}
+	
+/*	@Test
 	public void testMain() {
 		String[] test = new String[0];
 		Application.main(test);
 		assertTrue(true);
 	}
-
+*/
 }

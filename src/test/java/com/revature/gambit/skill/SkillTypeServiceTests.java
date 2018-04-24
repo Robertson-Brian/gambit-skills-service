@@ -65,7 +65,7 @@ public class SkillTypeServiceTests {
 		skillTypeRepository.delete(tstSkillType);
 
 	}
-
+	
 	@Test
 	public void failUpdateSkillType() {
 		SkillType tstSkillType = new SkillType("Testing", "Testing Desc", true, true);
@@ -75,6 +75,12 @@ public class SkillTypeServiceTests {
 		tstSkillType = skillTypeService.findBySkillTypeName("Testing");
 		assertTrue(tstSkillType.isIs_core());
 		skillTypeRepository.delete(tstSkillType);
+	}
+	
+	@Test
+	public void testSkillTypeHash() {
+		SkillType tstSkillType = new SkillType("Testing", "Testing Desc", true, true);
+		assertEquals(tstSkillType.hashCode(), -275199279);
 	}
 	
 }
