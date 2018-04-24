@@ -13,7 +13,9 @@ public interface ISkillService {
 	public Skill findByName(String name);
 
 	public Skill saveSkill(Skill skill);
+	
+	public Skill deleteSoftly(String name);
 
-	public void deleteSkillViaName(String name);
+	public boolean deleteSkillViaName(String name);
 
 }

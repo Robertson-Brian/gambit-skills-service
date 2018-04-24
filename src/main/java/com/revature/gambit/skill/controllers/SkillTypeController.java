@@ -38,7 +38,9 @@ public class SkillTypeController {
 
 	@GetMapping("/skilltype")
 	public ResponseEntity<Iterable<SkillType>> findAll() {
-		return new ResponseEntity<Iterable<SkillType>>(this.skillTypeService.findByAll(), HttpStatus.OK);
+		ResponseEntity<Iterable<SkillType>> re = new ResponseEntity<Iterable<SkillType>>(this.skillTypeService.findByAll(), HttpStatus.OK);
+		System.out.println(re);
+		return re;
 	}
 
 	@GetMapping("/skilltype/{name}")
@@ -75,7 +77,7 @@ public class SkillTypeController {
 
    @DeleteMapping("/skilltype/{name}")
    public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable String name) {
-   		iskillTypeService.deleteBySkillTypeName(name);
+   		skillTypeService.deleteBySkillTypeName(name);
    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
    }
 

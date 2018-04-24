@@ -12,6 +12,6 @@ public interface ISkillTypeService {
 
 	public boolean update(SkillType updatedSkillType, String name);
 
-	public void deleteBySkillTypeName(String name);
+	public boolean deleteBySkillTypeName(String name);
 	
 }

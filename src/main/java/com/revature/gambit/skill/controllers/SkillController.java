@@ -51,12 +51,16 @@ public class SkillController {
 		this.skillService.saveSkill(updatedSkill);
 		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
-
-
+	
+	/**
+	 * Hard delete here sole for convenience. Use update to do soft deletes. 
+	 * @param name
+	 * @return
+	 */
     @DeleteMapping("/skill/{name}")
     public ResponseEntity<Void> deleteSkillofName(@PathVariable String name) {
-    		iskillService.deleteSkillViaName(name);
-    		return new ResponseEntity<Void>( HttpStatus.ACCEPTED);
+    		skillService.deleteSkillViaName(name);
+    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
 
 	@GetMapping("/skill/{name}")

@@ -41,8 +41,12 @@ public class SkillTypeService implements ISkillTypeService {
 	}
 
 	@Transactional
-	public void deleteBySkillTypeName(String name) {
-		this.skillTypeRepository.deleteBySkillTypeName(name);
+	public boolean deleteBySkillTypeName(String name) {
+		if (findBySkillTypeName(name) instanceof SkillType) {
+			this.skillTypeRepository.deleteBySkillTypeName(name);
+			return true;
+		}
+		return false;
 	}
 
 }
