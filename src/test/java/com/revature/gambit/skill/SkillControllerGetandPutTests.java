@@ -6,20 +6,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.core.Application;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -63,10 +57,9 @@ public class SkillControllerGetandPutTests {
 	public void getSkillByName() throws Exception {
 		Skill skill1 = new Skill(99, "Javas", true);
 		Skill skill2 = new Skill(100, "Javas2", false);
-		Iterable<Skill> skills = Arrays.asList(skill1, skill2);
 		
-		when(skillService.findByName("Javas")).thenReturn(((List<Skill>) skills).get(0));
-        when(skillService.findByName("Javas2")).thenReturn(((List<Skill>) skills).get(1));
+		when(skillService.findByName("Javas")).thenReturn( skill1);
+        when(skillService.findByName("Javas2")).thenReturn(skill2);
         
         mvc.perform(MockMvcRequestBuilders.get("/skill/{name}", "Javas")
 				.accept(MediaType.APPLICATION_JSON))

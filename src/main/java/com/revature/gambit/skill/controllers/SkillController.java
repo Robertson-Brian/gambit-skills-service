@@ -35,14 +35,19 @@ public class SkillController {
     	return this.skillService.findAllActive();
     }
 
+    @GetMapping("/skill/name/{name}")
+    public Skill findByName(@PathVariable String name) {
+    	return skillService.findByName(name);
+    }
+    
+    @GetMapping("/skill/{id}")
+    public Skill findById(@PathVariable int id) {
+    	return skillService.findById(id);
+    }
+    
     @PutMapping("/skill")
     public void update(@RequestBody Skill updatedSkill) {
         skillService.saveSkill(updatedSkill);
     }
 
-    @GetMapping("/skill/{name}")
-    public Skill findById(@PathVariable String name) {
-    	return skillService.findByName(name);
-    }
-    
 }
