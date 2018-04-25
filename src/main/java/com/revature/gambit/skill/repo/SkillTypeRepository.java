@@ -5,6 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.revature.gambit.skill.beans.SkillType;
 
+/**
+ * Spring Data repository interface for Skill type service. Defines the
+ * boilerplate methods that will be used.
+ */
 @Repository
 public interface SkillTypeRepository extends JpaRepository<SkillType, Integer> {
 
@@ -12,4 +16,5 @@ public interface SkillTypeRepository extends JpaRepository<SkillType, Integer> {
     
     boolean deleteBySkillTypeName(String name);
     
+
 }

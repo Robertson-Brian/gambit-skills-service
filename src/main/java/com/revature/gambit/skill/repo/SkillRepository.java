@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import com.revature.gambit.skill.beans.Skill;
 
+/**
+ * Spring Data repository interface for Skill service. Defines the boilerplate
+ * methods that will be used.
+ */
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Integer> {
 
@@ -19,12 +23,13 @@ public interface SkillRepository extends JpaRepository<Skill, Integer> {
 
 	boolean deleteBySkillName(String name);
 	
-	@Modifying
-	@Query(value="update skill e set e.is_active=false where e.skill_name= :skill_name", nativeQuery=true)
-	Skill deleteSoftly(@Param("skill_name")String name);
 
+	/**
+	 * Retrieves all skills, including the inactive ones.
+	 *
+	 * @return List of skills found.
+	 */
 	List<Skill> findAll();
 
-	List<Skill> findAllByIsActive(boolean bool);
 
 }

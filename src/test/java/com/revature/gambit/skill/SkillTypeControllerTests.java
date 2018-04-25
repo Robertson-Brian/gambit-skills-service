@@ -1,12 +1,8 @@
 package com.revature.gambit.skill;
 
-
-import static org.junit.Assert.assertNotEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -21,12 +17,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.revature.gambit.skill.beans.SkillType;
 import com.revature.gambit.skill.controllers.SkillTypeController;
-import com.revature.gambit.skill.services.SkillTypeService;
-
+import com.revature.gambit.skill.services.SkillTypeServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -38,41 +32,26 @@ public class SkillTypeControllerTests {
 	private SkillTypeController skillTypeController;
 
 	@Mock
-	private SkillTypeService skillTypeService;
+	private SkillTypeServiceImpl skillTypeServiceImpl;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		mvc = MockMvcBuilders.standaloneSetup(skillTypeController).build();
 	}
 
 	@Test
-	public void getSkillType() throws Exception{
-		
+	public void postCreate() throws Exception {
+
 		SkillType skill1 = new SkillType(100, "Java", "I can code in Java", true, true);
-		SkillType skill2 = new SkillType(101, "Fortran", "What is Fortran", true, true);
+		Gson gson = new Gson();
+		String json = gson.toJson(skill1);
 
-		Iterable<SkillType> skills = Arrays.asList(skill1,skill2);
+        when(skillTypeServiceImpl.findBySkillTypeName("Java")).thenReturn( skill1);
+        when(skillTypeServiceImpl.findBySkillTypeName("Fortran")).thenReturn(skill1);
+		when(skillTypeServiceImpl.create(skill1)).thenReturn(skill1);
 
-		when(skillTypeService.findByAll()).thenReturn((List<SkillType>) skills);
-	 
-		mvc.perform(MockMvcRequestBuilders.get("/skilltype")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-
-	}
-
-	@Test
-	public void getSkillTypeByName() throws Exception{
-
-        SkillType skill1 = new SkillType(100, "Java", "I can code in Java", true, true);
-        SkillType skill2 = new SkillType(101, "Fortran", "What is Fortran", true, true);
-
-        Iterable<SkillType> skills = Arrays.asList(skill1,skill2);
-
-        when(skillTypeService.findBySkillTypeName("Java")).thenReturn( skill1);
-        when(skillTypeService.findBySkillTypeName("Fortran")).thenReturn(((List<SkillType>) skills).get(1));
-
-		mvc.perform(MockMvcRequestBuilders.get("/skilltype/{name}", "Java")
+		mvc.perform(MockMvcRequestBuilders.post("/skillType/")
+				.contentType(MediaType.APPLICATION_JSON).content(json)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 
@@ -98,7 +77,7 @@ public class SkillTypeControllerTests {
         String json = gson.toJson(skill1);
 
 
-        when(skillTypeService.update(skill1, "Java")).thenReturn(true);
+        when(skillTypeServiceImpl.update(skill1, "Java")).thenReturn(true);
 
         mvc.perform(MockMvcRequestBuilders.put("/skilltype/{name}", "Java")
                 .contentType(MediaType.APPLICATION_JSON_UTF8).content(json)
@@ -115,7 +94,7 @@ public class SkillTypeControllerTests {
         Gson gson = new Gson();
         String json = gson.toJson(skill1);
 
-        when(skillTypeService.update(skill1, "Jv")).thenReturn(false);
+        when(skillTypeServiceImpl.update(skill1, "Jv")).thenReturn(false);
 
         mvc.perform(MockMvcRequestBuilders.put("/skilltype/{name}", "Jv")
                 .contentType(MediaType.APPLICATION_JSON_UTF8).content(json)
@@ -126,7 +105,7 @@ public class SkillTypeControllerTests {
 	
 	@Test
 	public void testDeleteSkillTypeFunction() throws Exception {
-		when((skillTypeService).deleteBySkillTypeName("JTA")).thenReturn(true);
+		when(skillTypeServiceImpl.deleteBySkillTypeName("JTA")).thenReturn(true);
 	    mvc.perform(MockMvcRequestBuilders.delete("/skilltype/{name}", "JTA")
 	             .accept(MediaType.APPLICATION_JSON))
 	             .andExpect(status().isAccepted());

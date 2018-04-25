@@ -2,43 +2,63 @@ package com.revature.gambit.skill.beans;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
-import org.hibernate.annotations.Where;
+import javax.persistence.*;
 
+/**
+ * Represents a specific skill such as Java, C#, Bash, Office, etc.
+ */
 @Entity
 @Table(name = "SKILL")
 public class Skill {
 
+	/**
+	 * ID that uniquely identifies a skill.
+	 */
 	@Id
 	@Column(name = "SKILL_ID")
 	@SequenceGenerator(name = "SKILL_ID_SEQ", sequenceName = "SKILL_ID_SEQ")
-	@GeneratedValue(generator = "SKILL_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator = "SKILL_ID_SEQ")
 	private int skillID;
 
+	/**
+	 * Name of the skill.
+	 */
 	@Column(name = "SKILL_NAME")
 	private String skillName;
 
+	/**
+	 * Flag that will be used for soft deletes.
+	 */
 	@Column(name = "IS_ACTIVE")
 	private boolean isActive;
 
-	@ManyToMany(mappedBy = "skills", cascade =CascadeType.REMOVE, fetch=FetchType.EAGER)
+	/**
+	 * List of SkillTypes that will be referenced by this skill. Useful to establish
+	 * a many-to-many relationship.
+	 */
+	@ManyToMany(mappedBy = "skills", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<SkillType> skillTypes;
 
+	/**
+	 * No-args constructor.
+	 */
 	public Skill() {
 	}
 
-	public Skill(int skill_id, String skill_name, boolean active) {
-		this.skillID = skill_id;
-		this.skillName = skill_name;
+	/**
+	 * Constructor that initializes class fields.
+	 * 
+	 * @param skill_id
+	 *            ID that uniquely identifies a skill.
+	 * @param skill_name
+	 *            Name of the skill.
+	 * @param active
+	 *            Flag that will be used for soft deletes.
+	 */
+	public Skill(int skillId, String skillName, boolean active) {
+		this.skillID = skillId;
+		this.skillName = skillName;
 		this.isActive = active;
 	}
 
@@ -49,7 +69,7 @@ public class Skill {
 	public void setSkillID(int skillID) {
 		this.skillID = skillID;
 	}
-	
+
 	public String getSkillName() {
 		return skillName;
 	}
