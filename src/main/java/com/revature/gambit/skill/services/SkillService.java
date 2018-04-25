@@ -1,38 +1,16 @@
 package com.revature.gambit.skill.services;
 
 import com.revature.gambit.skill.beans.Skill;
-import com.revature.gambit.skill.repo.SkillRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+public interface SkillService {
 
-@Service
-public class SkillService {
+	Skill findById(int id);
 
-    @Autowired
-    private SkillRepository skillRepository;
+	Iterable<Skill> findAllActive();
 
-    public Skill create(Skill skill) { return this.skillRepository.save(skill); }
+	Iterable<Skill> findAllSkill();
 
-    public Skill findById(int id) { 
-    	return this.skillRepository.findBySkillID(id); 
-    }
-    
-	public Skill findByName(String name) {
-		return skillRepository.findBySkillName(name);
-	}
+	Skill findByName(String name);
 	
-	public Iterable<Skill> findAllSkill(){
-		return skillRepository.findAll();
-	}
-	
-	public Iterable<Skill> findAllActive(){
-		return skillRepository.findAllByIsActive(true);
-	}
-
-    @Transactional
-	public Skill saveSkill(Skill skill) {
-		return skillRepository.saveAndFlush(skill);
-	}
+	Skill saveSkill(Skill skill);
 }

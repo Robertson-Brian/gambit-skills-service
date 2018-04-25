@@ -3,7 +3,7 @@ package com.revature.gambit.skill.controllers;
 import com.revature.gambit.skill.beans.Skill;
 import javax.validation.Valid;
 
-import com.revature.gambit.skill.services.SkillService;
+import com.revature.gambit.skill.services.SkillServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SkillController {
 
     @Autowired
-    private SkillService skillService;
+    private SkillServiceImpl skillService;
 
     @PostMapping("/skill")
     public Skill create(@Valid @RequestBody Skill skill) { 

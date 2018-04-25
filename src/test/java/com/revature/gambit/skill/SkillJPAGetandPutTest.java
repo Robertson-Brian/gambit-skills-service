@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.revature.gambit.skill.beans.Skill;
-import com.revature.gambit.skill.services.SkillService;
+import com.revature.gambit.skill.services.SkillServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SkillJPAGetandPutTest {
 
     @Autowired
-    private SkillService skillService;
+    private SkillServiceImpl skillService;
     
     @Test
     public void testFindAllSkills() {

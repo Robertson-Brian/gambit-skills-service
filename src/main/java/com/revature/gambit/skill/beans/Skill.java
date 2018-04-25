@@ -22,6 +22,9 @@ public class Skill {
 	@ManyToMany(mappedBy = "skills")
 	private List<SkillType> skillTypes;
 	
+	@ElementCollection
+	int[] bucketId;
+	
 	public Skill() { }
 	
 	public Skill(int skill_id, String skill_name, boolean active) {
