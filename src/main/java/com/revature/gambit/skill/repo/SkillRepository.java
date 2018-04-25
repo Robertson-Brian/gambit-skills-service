@@ -17,19 +17,15 @@ import com.revature.gambit.skill.beans.Skill;
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Integer> {
 
-	Skill findBySkillName(String name);
+    Skill findBySkillID(int id);
+    
+    public Skill findBySkillName(String name);
+    
+    List<Skill> findAll();
+    
+    Iterable<Skill> findAllByIsActive(boolean bool);
+    
+	boolean deleteBySkillId(int id);
 
-	Skill findBySkillID(int id);
-
-	boolean deleteBySkillName(String name);
-	
-
-	/**
-	 * Retrieves all skills, including the inactive ones.
-	 *
-	 * @return List of skills found.
-	 */
-	List<Skill> findAll();
-
-
+    
 }

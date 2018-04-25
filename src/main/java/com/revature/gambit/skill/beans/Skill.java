@@ -39,26 +39,12 @@ public class Skill {
 	 */
 	@ManyToMany(mappedBy = "skills", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<SkillType> skillTypes;
-
-	/**
-	 * No-args constructor.
-	 */
-	public Skill() {
-	}
-
-	/**
-	 * Constructor that initializes class fields.
-	 * 
-	 * @param skill_id
-	 *            ID that uniquely identifies a skill.
-	 * @param skill_name
-	 *            Name of the skill.
-	 * @param active
-	 *            Flag that will be used for soft deletes.
-	 */
-	public Skill(int skillId, String skillName, boolean active) {
-		this.skillID = skillId;
-		this.skillName = skillName;
+	
+	public Skill() { }
+	
+	public Skill(int skill_id, String skill_name, boolean active) {
+		this.skillID = skill_id;
+		this.skillName = skill_name;
 		this.isActive = active;
 	}
 
