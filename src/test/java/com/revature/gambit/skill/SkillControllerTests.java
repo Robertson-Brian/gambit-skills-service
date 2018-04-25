@@ -53,8 +53,8 @@ public class SkillControllerTests {
 	@Test
 	public void testDeleteSkillFunction() throws Exception {
 		Skill skill1 = new Skill(100, "Java", true);
-		when(skillServiceImpl.findByName("Java")).thenReturn(skill1);
-		when(skillServiceImpl.deleteBySkillName("Java")).thenReturn(true);
+		when(skillServiceImpl.findById(100)).thenReturn(skill1);
+		when(skillServiceImpl.deleteBySkillID(100)).thenReturn(true);
 	    mvc.perform(MockMvcRequestBuilders.delete("/skill/{name}", "Java")
 	             .accept(MediaType.APPLICATION_JSON))
 	             .andExpect(status().isAccepted());

@@ -46,7 +46,7 @@ public class SkillControllerGetandPutTests {
 		Skill skill2 = new Skill(100, "Javas2", false);
 		Iterable<Skill> skills = Arrays.asList(skill1, skill2);
 		
-		when(skillServiceImpl.findAllSkill()).thenReturn((List<Skill>) skills);
+		when(skillServiceImpl.findAllSkill()).thenReturn(skills);
 		
 		mvc.perform(MockMvcRequestBuilders.get("/skill")
 				.accept(MediaType.APPLICATION_JSON))
@@ -92,7 +92,7 @@ public class SkillControllerGetandPutTests {
 		Skill skill1 = new Skill(99, "Javas", true);
 		Iterable<Skill> active = Arrays.asList(skill1);
 		
-		when(skillServiceImpl.findAllActive()).thenReturn((List<Skill>) active);
+		when(skillServiceImpl.findAllActive()).thenReturn(active);
 		
 		mvc.perform(MockMvcRequestBuilders.get("/skill/active")
 			.accept(MediaType.APPLICATION_JSON))

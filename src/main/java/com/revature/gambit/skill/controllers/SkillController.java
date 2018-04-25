@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.gambit.skill.beans.Skill;
-import com.revature.gambit.skill.services.SkillServiceImpl;
-
 /**
  * Controller that will handle requests for the skill service.
  */
@@ -60,6 +57,5 @@ public class SkillController {
     		return new ResponseEntity<Skill>(HttpStatus.BAD_REQUEST);
     	}
     }
->>>>>>> b88564412f3d766133a4515aabdc24d09dec5ef5
 
 }

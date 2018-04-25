@@ -48,13 +48,17 @@ public class SkillServiceImpl implements SkillService{
 	 * @param name
 	 *            Name of the skill to delete.
 	 */
-	@Override
 	@Transactional
-	public boolean deleteBySkillName(int id) {
+	public boolean deleteBySkillID(int id) {
 		if (findById(id) instanceof Skill) {
-			skillRepository.delete(findById(id));
+			skillRepository.deleteById(id);
 			return true;
 		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteBySkillName(int id) {
 		return false;
 	}
 }

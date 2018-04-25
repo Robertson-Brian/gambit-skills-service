@@ -20,10 +20,10 @@ public class SkillServiceTests {
 
 	@Test
 	public void testSkillCreate() {
-		int numberofSkills = ((List<Skill>) skillService.findAll()).size();
+		int numberofSkills = ((List<Skill>) skillService.findAllSkill()).size();
 		Skill skill = new Skill(1900, "test", true);
 		Skill returnedSkill = this.skillService.create(skill);
-		int newnumberofSkills = ((List<Skill>) skillService.findAll()).size();
+		int newnumberofSkills = ((List<Skill>) skillService.findAllSkill()).size();
 		assertEquals(numberofSkills, newnumberofSkills - 1);
 		assertEquals(returnedSkill.getSkillName(), skill.getSkillName() );
 	}

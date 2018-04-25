@@ -16,5 +16,7 @@ public interface SkillTypeRepository extends JpaRepository<SkillType, Integer> {
     
     boolean deleteBySkillTypeName(String name);
     
+    boolean deleteBySkillTypeID(int id);
+    
 
 }
