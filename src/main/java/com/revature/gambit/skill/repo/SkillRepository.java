@@ -17,10 +17,6 @@ public interface SkillRepository extends JpaRepository<Skill, Integer> {
     Skill findBySkillID(int id);
     
     public Skill findBySkillName(String name);
-
-	List<Skill> findAll();
-    
-    Iterable<Skill> findAllByIsActive(boolean bool);
     
 	boolean deleteBySkillID(Skill skill);
 	

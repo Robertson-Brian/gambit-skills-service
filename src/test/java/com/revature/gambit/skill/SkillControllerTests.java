@@ -38,19 +38,6 @@ public class SkillControllerTests {
 	public void setUp() {
 		mvc = MockMvcBuilders.standaloneSetup(skillController).build();
 	}
-
-	@Test
-	public void postSkill() throws Exception {
-		Skill skill = new Skill(101, "Fortran", true);
-		Gson gson = new Gson();
-		String json = gson.toJson(skill);
-		when(skillServiceImpl.create(skill)).thenReturn(skill);
-
-		mvc.perform(MockMvcRequestBuilders.post("/skill/")
-				.contentType(MediaType.APPLICATION_JSON).content(json)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated());
-	}
 	
 	@Test
 	public void testDeleteSkillFunction() throws Exception {

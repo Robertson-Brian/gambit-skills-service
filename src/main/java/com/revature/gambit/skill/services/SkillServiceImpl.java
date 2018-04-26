@@ -25,22 +25,6 @@ public class SkillServiceImpl implements SkillService{
 	public Skill findByName(String name) {
 		return skillRepository.findBySkillName(name);
 	}
-	
-    @Override
-	public Iterable<Skill> findAllSkill(){
-		return skillRepository.findAll();
-	}
-	
-    @Override
-	public Iterable<Skill> findAllActive(){
-		return skillRepository.findAllByIsActive(true);
-	}
-
-    @Transactional
-    @Override
-	public Skill saveSkill(Skill skill) {
-		return skillRepository.saveAndFlush(skill);
-	}
 
     /**
 	 * Deletes a skill based on its name.

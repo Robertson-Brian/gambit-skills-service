@@ -41,19 +41,6 @@ public class SkillControllerGetandPutTests {
 	}
 	
 	@Test
-	public void getSkills() throws Exception {
-		Skill skill1 = new Skill(99, "Javas", true);
-		Skill skill2 = new Skill(100, "Javas2", false);
-		Iterable<Skill> skills = Arrays.asList(skill1, skill2);
-		
-		when(skillServiceImpl.findAllSkill()).thenReturn(skills);
-		
-		mvc.perform(MockMvcRequestBuilders.get("/skill")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
-	
-	@Test
 	public void getSkillByName() throws Exception {
 		Skill skill1 = new Skill(99, "Javas", true);
 		Skill skill2 = new Skill(100, "Javas2", false);
@@ -87,30 +74,6 @@ public class SkillControllerGetandPutTests {
                 .andExpect(status().isOk());
 	}
 	
-	@Test
-	public void getSkillIsActive() throws Exception {
-		Skill skill1 = new Skill(99, "Javas", true);
-		Iterable<Skill> active = Arrays.asList(skill1);
-		
-		when(skillServiceImpl.findAllActive()).thenReturn(active);
-		
-		mvc.perform(MockMvcRequestBuilders.get("/skill/active")
-			.accept(MediaType.APPLICATION_JSON))
-        	.andExpect(status().isOk());
-	}
-	
-	@Test
-	public void putSkill() throws Exception {
-		Skill skill1 = new Skill(99, "Javas", true);
-		Gson gson = new Gson();
-        String json = gson.toJson(skill1);
-        
-        when(skillServiceImpl.saveSkill(skill1)).thenReturn(skill1);
-        
-        mvc.perform(MockMvcRequestBuilders.put("/skill/{id}", 99)
-                .contentType(MediaType.APPLICATION_JSON).content(json)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isAccepted());
-	}
+
 	
 }
