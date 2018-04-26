@@ -47,7 +47,7 @@ public class SkillController {
     
     @PutMapping("/skill/{id}")
     public ResponseEntity<Skill> update(@PathVariable int id, @RequestBody Skill updatedSkill) {
-    	if(id == updatedSkill.getSkillID()) {
+    	if(id == updatedSkill.getSkillId()) {
     		return new ResponseEntity<Skill>(skillService.saveSkill(updatedSkill), HttpStatus.ACCEPTED);
     	} else {
     		return new ResponseEntity<Skill>(HttpStatus.BAD_REQUEST);

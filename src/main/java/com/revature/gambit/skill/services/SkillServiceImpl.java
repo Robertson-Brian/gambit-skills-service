@@ -13,11 +13,11 @@ public class SkillServiceImpl implements SkillService{
     @Autowired
     private SkillRepository skillRepository;
 
-    public Skill create(Skill skill) { return this.skillRepository.save(skill); }
+    public Skill create(Skill skill) { return skillRepository.save(skill); }
 
     @Override
     public Skill findById(int id) { 
-    	return this.skillRepository.findBySkillID(id); 
+    	return skillRepository.findBySkillId(id); 
     }
     
     @Override

@@ -75,16 +75,36 @@ public class SkillControllerGetandPutTests {
 		Skill skill1 = new Skill(99, "Javas", true);
 		Skill skill2 = new Skill(100, "Javas2", false);
 		
+		Gson gson =  new Gson();
+		String json = gson.toJson(skill1);
+		String json2 = gson.toJson(skill2);
+		
 		when(skillServiceImpl.findById(99)).thenReturn(skill1);
 		when(skillServiceImpl.findById(100)).thenReturn(skill2);
 		
-		mvc.perform(MockMvcRequestBuilders.get("/skill/{id}", 99)
+		mvc.perform(MockMvcRequestBuilders.put("/skill/{id}", 99)
+				.contentType(MediaType.APPLICATION_JSON).content(json)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isAccepted());
 		
-		mvc.perform(MockMvcRequestBuilders.get("/skill/{id}", 100)
+		mvc.perform(MockMvcRequestBuilders.put("/skill/{id}", 100)
+				.contentType(MediaType.APPLICATION_JSON).content(json2)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isAccepted());
+	}
+	
+	@Test
+	public void getInvalidSkillById() throws Exception {
+		Skill skill1 = new Skill(999, "Javas", true);
+		
+		Gson gson =  new Gson();
+		String json = gson.toJson(skill1);
+		
+
+		mvc.perform(MockMvcRequestBuilders.put("/skill/{id}", 101)
+				.contentType(MediaType.APPLICATION_JSON).content(json)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
 	}
 	
 	@Test

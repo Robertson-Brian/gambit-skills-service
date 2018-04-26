@@ -11,7 +11,7 @@ public class Skill {
 	@Column(name="SKILL_ID")
 	@SequenceGenerator(name="SKILL_ID_SEQ",sequenceName="SKILL_ID_SEQ")
 	@GeneratedValue(generator = "SKILL_ID_SEQ")
-	private int skillID;
+	private int skillId;
 
 	@Column(name = "SKILL_NAME")
 	private String skillName;
@@ -22,21 +22,18 @@ public class Skill {
 	@ManyToMany(mappedBy = "skills")
 	private List<SkillType> skillTypes;
 	
-	@ElementCollection
-	int[] bucketId;
-	
 	public Skill() { }
 	
 	public Skill(int skill_id, String skill_name, boolean active) {
-		this.skillID = skill_id;
+		this.skillId = skill_id;
 		this.skillName = skill_name;
 		this.isActive = active;
 	}
-	public int getSkillID() {
-		return skillID;
+	public int getSkillId() {
+		return skillId;
 	}
-	public void setSkillID(int skillID) {
-		this.skillID = skillID;
+	public void setSkillId(int skillID) {
+		this.skillId = skillID;
 	} 
 	public String getSkillName() {
 		return skillName;
@@ -55,7 +52,7 @@ public class Skill {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (isActive ? 1231 : 1237);
-		result = prime * result + skillID;
+		result = prime * result + skillId;
 		result = prime * result + ((skillName == null) ? 0 : skillName.hashCode());
 		return result;
 	}
@@ -70,7 +67,7 @@ public class Skill {
 		Skill other = (Skill) obj;
 		if (isActive != other.isActive)
 			return false;
-		if (skillID != other.skillID)
+		if (skillId != other.skillId)
 			return false;
 		if (skillName == null) {
 			if (other.skillName != null)
@@ -82,7 +79,7 @@ public class Skill {
 
 	@Override
 	public String toString() {
-		return "Skill [skillID=" + skillID + ", skillName=" + skillName + ", isActive=" + isActive + ", skillTypes="
+		return "Skill [skillID=" + skillId + ", skillName=" + skillName + ", isActive=" + isActive + ", skillTypes="
 				+ skillTypes + "]";
 	}
 	
