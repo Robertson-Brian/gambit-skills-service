@@ -12,4 +12,26 @@ import com.revature.gambit.skill.beans.SkillType;
 @Repository
 public interface SkillTypeRepository extends JpaRepository<SkillType, Integer> {
 
+    /**
+     * Looks up a skill type based on the skill type name.
+     *
+     * @param name
+     *            Name of the skill type to lookup.
+     * @return Skill that was found.
+     */
+    SkillType findBySkillTypeName(String name);
+
+    /**
+     * Looks up a skill type based on the skill type name.
+     *
+     * @param id
+     *            Id of the skill type to lookup.
+     * @return Skill that was found.
+     */
+    SkillType findBySkillTypeId(int id);
+    
+   boolean deleteBySkillTypeName(String name);
+    
+   boolean deleteBySkillTypeId(int id);
+
 }

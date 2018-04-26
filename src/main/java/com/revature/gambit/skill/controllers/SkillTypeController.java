@@ -30,4 +30,20 @@ import java.io.UnsupportedEncodingException;
 @RestController
 public class SkillTypeController {
 
+    @Autowired
+    private SkillTypeServiceImpl skillTypeServiceImpl;
+
+
+   @DeleteMapping("/skilltype/name/{name}")
+   public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable String name) {
+	   skillTypeServiceImpl.deleteBySkillTypeName(name);
+   		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+   }
+
+
+    @DeleteMapping("/skilltype/{id}")
+    public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable int id) {
+ 	   skillTypeServiceImpl.deleteBySkillTypeId(id);
+    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
 }

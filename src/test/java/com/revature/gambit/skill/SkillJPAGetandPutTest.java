@@ -16,20 +16,4 @@ import com.revature.gambit.skill.services.SkillServiceImpl;
 @SpringBootTest
 public class SkillJPAGetandPutTest {
 
-    @Autowired
-    private SkillServiceImpl skillService;
-    
-
-    @Test
-    public void testFindBySkillName() {
-    	Skill skill = skillService.findByName("Java");
-    	assertEquals(skill.getSkillName(), "Java");
-    }
-    
-    @Test
-    public void testFindById() {
-    	Skill skill = skillService.findById(1);
-    	assertEquals(skill.getSkillName(), "Visual Basic");
-    }
-
 }

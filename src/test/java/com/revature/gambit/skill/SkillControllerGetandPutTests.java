@@ -26,54 +26,5 @@ import com.revature.gambit.skill.services.SkillServiceImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SkillControllerGetandPutTests {
-
-	private MockMvc mvc;
-	
-	@InjectMocks
-	private SkillController skillController;
-	
-	@Mock
-	private SkillServiceImpl skillServiceImpl;
-	
-	@Before
-	public void setUp() throws Exception {
-		mvc = MockMvcBuilders.standaloneSetup(skillController).build();
-	}
-	
-	@Test
-	public void getSkillByName() throws Exception {
-		Skill skill1 = new Skill(99, "Javas", true);
-		Skill skill2 = new Skill(100, "Javas2", false);
-		
-		when(skillServiceImpl.findByName("Javas")).thenReturn(skill1);
-        when(skillServiceImpl.findByName("Javas2")).thenReturn(skill2);
-        
-        mvc.perform(MockMvcRequestBuilders.get("/skill/name/{name}", "Javas")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-        
-        mvc.perform(MockMvcRequestBuilders.get("/skill/name/{name}", "Javas2")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-	}
-	
-	@Test
-	public void getSkillsById() throws Exception {
-		Skill skill1 = new Skill(99, "Javas", true);
-		Skill skill2 = new Skill(100, "Javas2", false);
-		
-		when(skillServiceImpl.findById(99)).thenReturn(skill1);
-		when(skillServiceImpl.findById(100)).thenReturn(skill2);
-		
-		mvc.perform(MockMvcRequestBuilders.get("/skill/{id}", 99)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-		
-		mvc.perform(MockMvcRequestBuilders.get("/skill/{id}", 100)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-	}
-	
-
 	
 }

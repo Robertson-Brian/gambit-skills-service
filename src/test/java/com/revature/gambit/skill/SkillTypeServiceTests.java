@@ -25,5 +25,48 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SkillTypeServiceTests {
+
+	@Autowired
+	private SkillTypeServiceImpl skillTypeService;
+	
+	@Autowired
+	private SkillTypeRepository skillTypeRepository;
+
+
+	@Test
+	public void getAllSkillTypes() {
+		Iterable<SkillType> skillTypes = skillTypeService.findByAll();
+		assertEquals(9, ((List<SkillType>) skillTypes).size());
+	}
+
+	@Test
+	public void getSkillTypeById() {
+		SkillType stk = skillTypeService.findBySkillTypeId(3);
+		assertEquals(stk.getSkillTypeDesc(), "PEGA Description");
+	}
+
+	@Test
+	public void getSkillTypeNotFound() {
+		SkillType stk = skillTypeService.findBySkillTypeId(1000);
+		assertNull(stk);
+	}
+
+	@Test
+	public void testDeleteTypeSkillNameFunction() {
+		Iterable<SkillType> skills = this.skillTypeService.findByAll();
+		this.skillTypeService.deleteBySkillTypeName("JTA");
+		Iterable<SkillType> skillss = this.skillTypeService.findByAll();
+		assertNotEquals(skills, skillss);
+	}
+		
+	@Test
+	public void testDeleteTypeSkillIdFunction() {
+		Iterable<SkillType> skills = this.skillTypeService.findByAll();
+		this.skillTypeService.deleteBySkillTypeId(101);
+		Iterable<SkillType> skillss = this.skillTypeService.findByAll();
+		assertNotEquals(skills, skillss);
+	}
+	
+	
 	
 }

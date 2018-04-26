@@ -13,17 +13,6 @@ import com.revature.gambit.skill.beans.Skill;
  */
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Integer> {
-	
-    @Override
-	List<Skill> findAll();
-
-    Skill findBySkillID(int id);
-    
-    public Skill findBySkillName(String name);
-    
-	boolean deleteBySkillID(Skill skill);
-	
-	boolean deleteBySkillName(String name);
 
     
 }
