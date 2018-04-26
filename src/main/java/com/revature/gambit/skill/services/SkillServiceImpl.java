@@ -15,6 +15,11 @@ public class SkillServiceImpl implements SkillService{
     private SkillRepository skillRepository;
 
     public Skill create(Skill skill) { return this.skillRepository.save(skill); }
+    
+    @Override
+	public Iterable<Skill> findAllSkill(){
+		return skillRepository.findAll();
+	}
 
     @Override
     public Skill findById(int id) { 
