@@ -3,6 +3,9 @@ package com.revature.gambit.skill;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -101,12 +104,45 @@ public class SkillTypeControllerTests {
     }
 
 	
+
 	@Test
-	public void testDeleteSkillTypeFunction() throws Exception {
-		when(skillTypeServiceImpl.deleteBySkillTypeName("JTA")).thenReturn(true);
-	    mvc.perform(MockMvcRequestBuilders.delete("/skilltype/{name}", "JTA")
-	             .accept(MediaType.APPLICATION_JSON))
-	             .andExpect(status().isAccepted());
+	public void getSkillType() throws Exception{
+
+		SkillType skill1 = new SkillType(100, "Java", "I can code in Java", true, true);
+		SkillType skill2 = new SkillType(101, "Fortran", "What is Fortran", true, true);
+
+		Iterable<SkillType> skills = Arrays.asList(skill1,skill2);
+
+		when(skillTypeServiceImpl.findByAll()).thenReturn((List<SkillType>) skills);
+
+		mvc.perform(MockMvcRequestBuilders.get("/skillType")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
 	}
+
+	@Test
+	public void getSkillTypeById() throws Exception{
+
+		SkillType skill1 = new SkillType(100, "Java", "I can code in Java", true, true);
+		SkillType skill2 = new SkillType(101, "Fortran", "What is Fortran", true, true);
+
+		Iterable<SkillType> skills = Arrays.asList(skill1,skill2);
+
+		when(skillTypeServiceImpl.findBySkillTypeId(100)).thenReturn(((List<SkillType>) skills).get(0));
+		when(skillTypeServiceImpl.findBySkillTypeId(101)).thenReturn(((List<SkillType>) skills).get(1));
+
+		mvc.perform(MockMvcRequestBuilders.get("/skillType/{id}", 100)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
+		mvc.perform(MockMvcRequestBuilders.get("/skillType/{id}", 101)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
+	}
+	
+	
+
 
 }

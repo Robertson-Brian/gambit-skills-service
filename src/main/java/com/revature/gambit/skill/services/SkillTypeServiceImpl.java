@@ -35,24 +35,33 @@ public class SkillTypeServiceImpl implements SkillTypeService {
 
 	/**
 	 * Retrieves a skill type based on its skill type name.
-	 * 
+	 *
 	 * @param name
 	 *            Name of the skill type to retrieve.
 	 * @return Skill Type that was found.
 	 */
 	@Override
 	public SkillType findBySkillTypeName(String name) {
-		return null;
+		return this.skillTypeRepository.findBySkillTypeName(name);
 	}
 
 	/**
+	 * Retrieves a skill type based on its skill type name.
+	 *
+	 * @param id
+	 *            Id of the skill type to retrieve.
+	 * @return Skill Type that was found.
+	 */
+	public SkillType findBySkillTypeId(int id){ return this.skillTypeRepository.findBySkillTypeId(id);}
+
+	/**
 	 * Retrieves all the skill types.
-	 * 
+	 *
 	 * @return Iterable object containing all the skill types.
 	 */
 	@Override
 	public Iterable<SkillType> findByAll() {
-		return null;
+		return this.skillTypeRepository.findAll();
 	}
 
 	/**
@@ -70,31 +79,4 @@ public class SkillTypeServiceImpl implements SkillTypeService {
 		return false;
 	}
 
-	/**
-	 * Deletes a skill type based on its name.
-	 * 
-	 * @param name
-	 *            Name of the skill type to delete.
-	 * @exception UnsupportedOperationException Since the method has yet to be implemented
-	 */
-	/**
-	 * Deletes a skill type based on its name.
-	 * 
-	 * @param name
-	 *            Name of the skill type to delete.
-	 */
-	@Transactional
-	public boolean deleteBySkillTypeName(String name) {
-		if (findBySkillTypeName(name) instanceof SkillType) {
-			this.skillTypeRepository.deleteBySkillTypeName(name);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean deleteBySkillTypeId(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

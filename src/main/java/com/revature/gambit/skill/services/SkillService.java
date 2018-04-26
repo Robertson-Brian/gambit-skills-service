@@ -14,7 +14,7 @@ public interface SkillService {
 	
 	Skill saveSkill(Skill skill);
 	
-	boolean deleteBySkillName(int id);
+	boolean deleteBySkillName(String name);
 
 	boolean deleteBySkillID(int id);
 

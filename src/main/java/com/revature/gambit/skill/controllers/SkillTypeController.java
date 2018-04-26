@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gambit.skill.beans.SkillType;
 import com.revature.gambit.skill.services.SkillTypeServiceImpl;
+import org.springframework.web.bind.annotation.*;
+
+import com.revature.gambit.skill.services.SkillTypeService;
+
+import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Controller that will handle requests for the skill type service.
@@ -66,11 +72,6 @@ public class SkillTypeController {
        return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
    }
 
-   @DeleteMapping("/skilltype/{name}")
-   public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable String name) {
-	   skillTypeServiceImpl.deleteBySkillTypeName(name);
-   		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-   }
 
     /**
      * Handles incoming POST request that adds a new skill type to the DB.
@@ -83,5 +84,28 @@ public class SkillTypeController {
     public ResponseEntity<SkillType> create(@Valid @RequestBody SkillType skillType) {
         return new ResponseEntity<>(skillTypeServiceImpl.create(skillType),HttpStatus.CREATED);
     }
+
+
+    /**
+     * Handles incoming GET request that grabs a specific skill type.
+     *
+     * @param id
+     *            Id of the skill type that needs to be retrieved.
+     * @return Skill type along with HTTP status code 200 (OK) if found, HTTP status
+     *         code 404 (NOT FOUND) otherwise.
+     */
+    @GetMapping("/skillType/{id}")
+    public ResponseEntity<SkillType> findSkill(@PathVariable int id) {
+
+        SkillType skillType = skillTypeServiceImpl.findBySkillTypeId(id);
+        if (skillType == null) {
+            return new ResponseEntity<SkillType>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<SkillType>(
+            		skillTypeServiceImpl.findBySkillTypeId(id),
+                    HttpStatus.OK);
+        }
+    }
+
 
 }

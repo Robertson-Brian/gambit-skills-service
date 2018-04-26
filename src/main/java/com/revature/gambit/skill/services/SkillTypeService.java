@@ -26,6 +26,15 @@ public interface SkillTypeService {
 	public SkillType findBySkillTypeName(String name);
 
 	/**
+	 * Retrieves a skill type based on its skill type name.
+	 *
+	 * @param id
+	 *            Name of the skill type to retrieve.
+	 * @return Skill Type that was found.
+	 */
+	public SkillType findBySkillTypeId(int id);
+
+	/**
 	 * Retrieves all the skill types.
 	 * 
 	 * @return Iterable object containing all the skill types.
@@ -49,6 +58,5 @@ public interface SkillTypeService {
 	 * @param name
 	 *            Name of the skill type to delete.
 	 */
-	public boolean deleteBySkillTypeId(int id);
 
 }

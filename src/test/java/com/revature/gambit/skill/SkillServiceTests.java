@@ -1,6 +1,7 @@
 package com.revature.gambit.skill;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import java.util.List;
 
 import org.junit.Test;
@@ -9,23 +10,72 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.revature.gambit.skill.beans.Skill;
-import com.revature.gambit.skill.services.SkillServiceImpl;
+import com.revature.gambit.skill.services.SkillService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SkillServiceTests {
 
 	@Autowired
-	private SkillServiceImpl skillService;
+	private SkillService skillService;
+
+	@Test
+	public void testFindAllSkills() {
+		Iterable<Skill> skill = skillService.findAllSkill();
+		assertEquals(41, ((List<Skill>) skill).size());
+	}
+
+	@Test
+	public void testFindBySkillName() {
+		Skill skill = skillService.findByName("Java");
+		assertEquals(skill.getSkillName(), "Java");
+	}
+
+	@Test
+	public void testFindAllByIsActive() {
+		Iterable<Skill> skills = skillService.findAllActive();
+		assertEquals(((List<Skill>) skills).size(), 40);
+	}
+
+	@Test
+	public void testSaveSkill() {
+		Skill skill1 = skillService.findByName("PEGA");
+		Skill skill2 = skillService.saveSkill(new Skill(1, "Javas", true));
+		assertNotEquals(skill2.getSkillName(), skill1.getSkillName());
+		Skill skill3 = skillService.saveSkill(new Skill(1, skill1.getSkillName(), true));
+		assertEquals(skill1.getSkillName(), skill3.getSkillName());
+	}
+	
+	@Test
+	public void testDeleteSkillNameFunction() {
+		Iterable<Skill> skills = this.skillService.findAllSkill();
+		this.skillService.deleteBySkillName("Java");
+		Iterable<Skill> skillss = this.skillService.findAllSkill();
+		assertNotEquals(skills, skillss);
+	}
+	
+	@Test
+	public void testDeleteSkillIdFunction() {
+		Iterable<Skill> skills = this.skillService.findAllSkill();
+		this.skillService.deleteBySkillID(51);
+		Iterable<Skill> skillss = this.skillService.findAllSkill();
+		assertNotEquals(skills, skillss);
+	}
 
 	@Test
 	public void testSkillCreate() {
 		int numberofSkills = ((List<Skill>) skillService.findAllSkill()).size();
 		Skill skill = new Skill(1900, "test", true);
-		Skill returnedSkill = this.skillService.create(skill);
+//		this.skillService.create(skill);
 		int newnumberofSkills = ((List<Skill>) skillService.findAllSkill()).size();
 		assertEquals(numberofSkills, newnumberofSkills - 1);
-		assertEquals(returnedSkill.getSkillName(), skill.getSkillName() );
+	}
+
+	@Test
+	public void getSkillByName() {
+		Skill sk = new Skill(1, "Java", true);
+		System.out.println(sk.getSkillID());
+		assertEquals(sk.getSkillName(), "Java");
 	}
 
 }
