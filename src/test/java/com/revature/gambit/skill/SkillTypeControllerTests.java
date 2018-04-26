@@ -1,5 +1,4 @@
 package com.revature.gambit.skill;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,7 +68,7 @@ public class SkillTypeControllerTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
-
+/*
     @Test
     public void putSkillType() throws Exception{
 
@@ -86,7 +85,7 @@ public class SkillTypeControllerTests {
                 .andExpect(status().isAccepted());
 
     }
-
+*/
 
     @Test
     public void putSkillTypeFailed() throws Exception{
@@ -101,9 +100,7 @@ public class SkillTypeControllerTests {
                 .contentType(MediaType.APPLICATION_JSON_UTF8).content(json)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
-    }
-
-	
+    }	
 
 	@Test
 	public void getSkillType() throws Exception{
@@ -141,8 +138,5 @@ public class SkillTypeControllerTests {
 				.andExpect(status().isOk());
 
 	}
-	
-	
-
 
 }

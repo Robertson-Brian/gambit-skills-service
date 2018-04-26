@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.gambit.skill.beans.Skill;
 import com.revature.gambit.skill.services.SkillServiceImpl;
 
+
 /**
  * Controller that will handle requests for the skill service.
  */
@@ -57,25 +58,26 @@ public class SkillController {
     	}
     }
     	
-	/**
-	 * Hard delete here sole for convenience. Use update to do soft deletes. 
-	 * @param name
-	 * @return
-	 */
-    @DeleteMapping("/skill/{name}")
-    public ResponseEntity<Void> deleteBySkillName(@PathVariable String name) {
-    		skillService.deleteBySkillName(name);
-    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-    }
-    
-//    /**
-//	 * Hard delete here sole for convenience. Use update to do soft deletes. 
+//	/**
+//	 * Hard delete by name here for convenience. You might need to comment this out avoid ambiguous mapping exceptions. 
 //	 * @param name
 //	 * @return
 //	 */
-//    @DeleteMapping("/skill/{id}")
-//    public ResponseEntity<Void> deleteBySkillId(@PathVariable int id) {
-//    		skillService.deleteBySkillID(id);
+//    @DeleteMapping("/skill/{name}")
+//    public ResponseEntity<Void> deleteBySkillName(@PathVariable String name) {
+//    		skillService.deleteBySkillName(name);
 //    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 //    }
+    
+    /**
+	 * Hard delete by id, the default deleting mechanism. 
+	 * @param name
+	 * @return
+	 */
+    @DeleteMapping("/skill/{id}")
+    public ResponseEntity<Void> deleteBySkillId(@PathVariable int id) {
+    		skillService.deleteBySkillID(id);
+    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
+
 }

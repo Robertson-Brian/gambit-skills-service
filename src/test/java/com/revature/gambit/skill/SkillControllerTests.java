@@ -20,6 +20,7 @@ import com.revature.gambit.skill.beans.Skill;
 import com.revature.gambit.skill.controllers.SkillController;
 import com.revature.gambit.skill.services.SkillServiceImpl;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SkillControllerTests {
@@ -31,6 +32,7 @@ public class SkillControllerTests {
 
 	@Mock
 	private SkillServiceImpl skillServiceImpl;
+
 
 	@Before
 	public void setUp() {
@@ -48,14 +50,14 @@ public class SkillControllerTests {
 				.contentType(MediaType.APPLICATION_JSON).content(json)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated());
-	}	
+	}
 	
 	@Test
 	public void testDeleteSkillFunction() throws Exception {
 		Skill skill1 = new Skill(100, "Java", true);
 		when(skillServiceImpl.findById(100)).thenReturn(skill1);
 		when(skillServiceImpl.deleteBySkillID(100)).thenReturn(true);
-	    mvc.perform(MockMvcRequestBuilders.delete("/skill/{name}", "Java")
+	    mvc.perform(MockMvcRequestBuilders.delete("/skill/{id}", 100)
 	             .accept(MediaType.APPLICATION_JSON))
 	             .andExpect(status().isAccepted());
 	}

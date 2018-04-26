@@ -17,8 +17,7 @@ public interface SkillRepository extends JpaRepository<Skill, Integer> {
     Skill findBySkillID(int id);
     
     public Skill findBySkillName(String name);
-    
-    @Override
+
 	List<Skill> findAll();
     
     Iterable<Skill> findAllByIsActive(boolean bool);

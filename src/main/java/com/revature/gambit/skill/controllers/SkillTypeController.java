@@ -30,6 +30,7 @@ import java.io.UnsupportedEncodingException;
 @RestController
 public class SkillTypeController {
 
+
     @Autowired
     private SkillTypeServiceImpl skillTypeServiceImpl;
 
@@ -106,6 +107,7 @@ public class SkillTypeController {
                     HttpStatus.OK);
         }
     }
+
 
 
 }

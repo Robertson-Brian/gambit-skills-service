@@ -60,6 +60,5 @@ public class SkillTypeServiceTests {
 		SkillType stk = skillTypeService.findBySkillTypeId(1000);
 		assertNull(stk);
 	}
-
 	
 }
