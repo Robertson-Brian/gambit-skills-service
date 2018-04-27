@@ -7,7 +7,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 /**
  * Create send functions to send based on insert, update, or delete also add a
- * UUID to the front of the message so the receiver if it was the one that sent it.
+ * UUID to the front of the message so the receiver if it was the one that sent
+ * it.
  * 
  * @author Chris Snyder
  */
@@ -20,45 +21,102 @@ public class Sender {
 	UUIDService UUIDService;
 
 	/**
-	 * Sends a message to insert in another instance.
+	 * Sends a UUID to Kafka to make sure it is unique.
 	 * 
-	 * @param topic - Which topic it is sending to
-	 * @param payload - Should be a json object no spaces in it
+	 * @param payload
+	 *            The uuid to send.
 	 */
-	public void sendInsert(String payload) {
-		UUIDService.checkuuid();
-		payload = UUIDService.getServiceInstanceIdentifier().toString() + " " + payload;
-
-		kafkaTemplate.send("batch.register.t", payload);
-	}
-
 	public void sendUUID(String payload) {
-		kafkaTemplate.send("batch.uuid.t", payload);
+		kafkaTemplate.send("skill.uuid.t", payload);
 	}
 
 	/**
-	 * Sends a message to update in another instance.
+	 * Sends a message to insert in another instance of Skill.
 	 * 
-	 * @param topic - Which topic it is sending to
-	 * @param payload - Should be a json object no spaces in it
+	 * @param topic
+	 *            - Which topic it is sending to
+	 * @param payload
+	 *            - Should be a json object no spaces in it
 	 */
-	public void sendUpdate(String payload) {
+	public void sendInsertSkill(String payload) {
 		UUIDService.checkuuid();
 		payload = UUIDService.getServiceInstanceIdentifier().toString() + " " + payload;
 
-		kafkaTemplate.send("batch.update.t", payload);
+		kafkaTemplate.send("skill.register.t", payload);
 	}
 
 	/**
-	 * Sends a message to delete in another instance.
+	 * Sends a message to update in another instance of Skill.
 	 * 
-	 * @param topic - Which topic it is sending to
-	 * @param payload - Should be a json object no spaces in it
+	 * @param topic
+	 *            - Which topic it is sending to
+	 * @param payload
+	 *            - Should be a json object no spaces in it
 	 */
-	public void sendDelete(String payload) {
+	public void sendUpdateSkill(String payload) {
 		UUIDService.checkuuid();
 		payload = UUIDService.getServiceInstanceIdentifier().toString() + " " + payload;
 
-		kafkaTemplate.send("batch.delete.t", payload);
+		kafkaTemplate.send("skill.update.t", payload);
+	}
+
+	/**
+	 * Sends a message to delete in another instance of Skill.
+	 * 
+	 * @param topic
+	 *            - Which topic it is sending to
+	 * @param payload
+	 *            - Should be a json object no spaces in it
+	 */
+	public void sendDeleteSkill(String payload) {
+		UUIDService.checkuuid();
+		payload = UUIDService.getServiceInstanceIdentifier().toString() + " " + payload;
+
+		kafkaTemplate.send("skill.delete.t", payload);
+	}
+
+	/**
+	 * Sends a message to insert in another instance of SkillType.
+	 * 
+	 * @param topic
+	 *            - Which topic it is sending to
+	 * @param payload
+	 *            - Should be a json object no spaces in it
+	 */
+	public void sendInsertSkillType(String payload) {
+		UUIDService.checkuuid();
+		payload = UUIDService.getServiceInstanceIdentifier().toString() + " " + payload;
+
+		kafkaTemplate.send("skillType.register.t", payload);
+	}
+
+	/**
+	 * Sends a message to update in another instance of SkillType.
+	 * 
+	 * @param topic
+	 *            - Which topic it is sending to
+	 * @param payload
+	 *            - Should be a json object no spaces in it
+	 */
+	public void sendUpdateSkillType(String payload) {
+		UUIDService.checkuuid();
+		payload = UUIDService.getServiceInstanceIdentifier().toString() + " " + payload;
+
+		kafkaTemplate.send("skillType.update.t", payload);
+	}
+
+	/**
+	 * Sends a message to delete in another instance of SkillType.
+	 * 
+	 * @param topic
+	 *            - Which topic it is sending to
+	 * @param payload
+	 *            - Should be a json object no spaces in it
+	 */
+	public void sendDeleteSkillType(String payload) {
+		UUIDService.checkuuid();
+		payload = UUIDService.getServiceInstanceIdentifier().toString() + " " + payload;
+
+		kafkaTemplate.send("skillType.delete.t", payload);
 	}
 }
