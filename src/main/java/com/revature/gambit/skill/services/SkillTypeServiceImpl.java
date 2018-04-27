@@ -39,7 +39,18 @@ public class SkillTypeServiceImpl implements SkillTypeService {
 	 * @return Skill Type that was found.
 	 */
 	public SkillType findBySkillTypeName(String name) {
-		return null;
+		return this.skillTypeRepository.findBySkillTypeName(name);
+	}
+	
+	/**
+	 * Retrieves a skill type based on its skill type id.
+	 * 
+	 * @param id
+	 *            id of the skill type to retrieve.
+	 * @return Skill Type that was found.
+	 */
+	public SkillType findBySkillTypeID(int id) {
+		return this.skillTypeRepository.findBySkillTypeID(id);
 	}
 
 	/**
@@ -47,8 +58,8 @@ public class SkillTypeServiceImpl implements SkillTypeService {
 	 * 
 	 * @return Iterable object containing all the skill types.
 	 */
-	public Iterable<SkillType> findByAll() {
-		return null;
+	public Iterable<SkillType> findAll() {
+		return this.skillTypeRepository.findAll();
 	}
 
 	/**
