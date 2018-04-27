@@ -18,7 +18,7 @@ public class SkillType {
 	@Column(name = "SKILLTYPE_ID")
 	@SequenceGenerator(name = "SKILLTYPE_ID_SEQ", sequenceName = "SKILLTYPE_ID_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator = "SKILLTYPE_ID_SEQ")
-	private Integer skillTypeId;
+	private Integer skillTypeID;
 
 	/**
 	 * Name of the skill type.
@@ -95,7 +95,7 @@ public class SkillType {
 	 */
 	public SkillType(Integer skillTypeID, String skillTypeName, String skillTypeDesc, boolean isActive,
 			boolean isCore) {
-		this.skillTypeId = skillTypeID;
+		this.skillTypeID = skillTypeID;
 		this.skillTypeName = skillTypeName;
 		this.skillTypeDesc = skillTypeDesc;
 		this.isActive = isActive;
@@ -103,11 +103,11 @@ public class SkillType {
 	}
 
 	public Integer getSkillTypeId() {
-		return skillTypeId;
+		return skillTypeID;
 	}
 
 	public void setSkillTypeId(Integer skillId) {
-		this.skillTypeId = skillId;
+		this.skillTypeID = skillId;
 	}
 
 	public String getSkillTypeName() {
@@ -163,7 +163,7 @@ public class SkillType {
 			return false;
 		if (isCore != skillType.isCore)
 			return false;
-		if (skillTypeId != null ? !skillTypeId.equals(skillType.skillTypeId) : skillType.skillTypeId != null)
+		if (skillTypeID != null ? !skillTypeID.equals(skillType.skillTypeID) : skillType.skillTypeID != null)
 			return false;
 		if (skillTypeName != null ? !skillTypeName.equals(skillType.skillTypeName) : skillType.skillTypeName != null)
 			return false;
@@ -172,7 +172,7 @@ public class SkillType {
 
 	@Override
 	public int hashCode() {
-		int result = skillTypeId != null ? skillTypeId.hashCode() : 0;
+		int result = skillTypeID != null ? skillTypeID.hashCode() : 0;
 		result = 31 * result + (skillTypeName != null ? skillTypeName.hashCode() : 0);
 		result = 31 * result + (skillTypeDesc != null ? skillTypeDesc.hashCode() : 0);
 		result = 31 * result + (isActive ? 1 : 0);
