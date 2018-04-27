@@ -25,7 +25,8 @@ public class UUIDService {
 	/**
 	 * Creates instance of a random UUID
 	 */
-	private UUIDService() { }
+	private UUIDService() {
+	}
 
 	/**
 	 * If it does not exist it is created
@@ -40,37 +41,43 @@ public class UUIDService {
 	}
 
 	/**
-	 * @return the UUID to be made into a string to be sent to whatever is calling it
+	 * @return the UUID to be made into a string to be sent to whatever is calling
+	 *         it
 	 */
 	public void addUUIDToList(String uuid) {
 		listUUID.add(UUID.fromString(uuid));
 	}
 
-	/**
-	 * 
-	 */
 	public void checkuuid() {
 		if (checked == 0) {
-			if (listUUID.isEmpty()) {
+			checkPartTwo();
+		}
+	}
+
+	public void checkPartTwo() {
+		if (listUUID.isEmpty()) {
+			sender.sendUUID(serviceInstanceIdentifier.toString());
+			checked = 1;
+		} else {
+			checkPartThree();
+		}
+	}
+
+	public void checkPartThree() {
+		int a = 0;
+		while (a != 1) {
+			UUID temp = UUID.randomUUID();
+			for (UUID i : listUUID) {
+				if (temp.equals(i)) {
+					temp = UUID.randomUUID();
+					a = -1;
+				}
+			}
+			if (a == 0) {
+				serviceInstanceIdentifier = temp;
 				sender.sendUUID(serviceInstanceIdentifier.toString());
 				checked = 1;
-			} else {
-				int a = 0;
-				while (a != 1) {
-					UUID temp = UUID.randomUUID();
-					for (UUID i : listUUID) {
-						if (temp.equals(i)) {
-							temp = UUID.randomUUID();
-							a = -1;
-						}
-					}
-					if (a == 0) {
-						serviceInstanceIdentifier = temp;
-						sender.sendUUID(serviceInstanceIdentifier.toString());
-						checked = 1;
-						a = 1;
-					}
-				}
+				a = 1;
 			}
 		}
 	}
