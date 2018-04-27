@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.gambit.skill.beans.Skill;
 import com.revature.gambit.skill.repo.SkillRepository;
+import com.revature.gambit.skill.util.LoggingUtil;
 
 /**
  * Implementation of the Skill service API methods.
@@ -30,6 +31,7 @@ public class SkillService implements ISkillService {
 	 */
 	@Transactional
 	public Skill create(Skill skill) {
+		LoggingUtil.logInfo("Created skill with name: " + skill.getSkillName());
 		return skillRepository.save(skill);
 	}
 
@@ -39,15 +41,17 @@ public class SkillService implements ISkillService {
 	 * @return Iterable object containing all the skills found.
 	 */
 	public Iterable<Skill> findAll() {
+		LoggingUtil.logInfo("Retrieved all skills");
 		return skillRepository.findAll();
 	}
 
 	/**
 	 * Retrieves all the active skills.
 	 * 
-	 * @return Iterable object containing all the skills fouund.
+	 * @return Iterable object containing all the skills found.
 	 */
 	public Iterable<Skill> findAllActive() {
+		LoggingUtil.logInfo("Retrieved all active skills");
 		return skillRepository.findAllByIsActive(true);
 	}
 
@@ -59,6 +63,7 @@ public class SkillService implements ISkillService {
 	 * @return Skill that was found.
 	 */
 	public Skill findByName(String name) {
+		LoggingUtil.logInfo("Retrieved skill with name: " + name);
 		return skillRepository.findBySkillName(name);
 	}
 
@@ -72,6 +77,7 @@ public class SkillService implements ISkillService {
 	 */
 	@Transactional
 	public Skill saveSkill(Skill skill) {
+		LoggingUtil.logInfo("Created a new skill with name: " + skill.getSkillName());
 		return skillRepository.saveAndFlush(skill);
 	}
 	
@@ -79,6 +85,7 @@ public class SkillService implements ISkillService {
 	@Transactional
 	public Skill deleteSoftly(String name) {
 		Skill skill = findByName(name);
+		LoggingUtil.logInfo("Soft deleted skill with name: " + skill.getSkillName());
 		return skillRepository.saveAndFlush(skill);
 	}
 
@@ -92,9 +99,11 @@ public class SkillService implements ISkillService {
 	@Transactional
 	public boolean deleteSkillViaName(String name) {
 		if (findByName(name) instanceof Skill) {
+			LoggingUtil.logInfo("Deleted skill with name: " + name);
 			skillRepository.delete(findByName(name));
 			return true;
 		}
+		LoggingUtil.logError("Couldn't delete skill with name: " + name);
 		return false;
 	}
 
