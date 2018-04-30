@@ -17,51 +17,21 @@ import com.revature.gambit.skill.beans.Skill;
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Integer> {
 
-	/**
-	 * Looks up a skill based on the skill name.
-	 * 
-	 * @param name
-	 *            Name of the skill to lookup.
-	 * @return Skill that was found.
-	 */
-	Skill findBySkillName(String name);
-
-	/**
-	 * Looks up a skill based on the skill ID.
-	 * 
-	 * @param id
-	 *            ID of the skill to lookup.
-	 * @return Skill that was found.
-	 */
-	Skill findBySkillID(int id);
-
-	@Modifying
-	@Query(value="update skill e set e.is_active=false where e.skill_name= :skill_name", nativeQuery=true)
-	Skill deleteSoftly(@Param("skill_name")String name);
-
-	/**
-	 * Deletes a skill based on the skill name.
-	 * 
-	 * @param name
-	 *            Name of the skill to delete.
-	 */
-	boolean deleteBySkillName(String name);
 
 	/**
 	 * Retrieves all skills, including the inactive ones.
-	 * 
+	 *
 	 * @return List of skills found.
 	 */
 	List<Skill> findAll();
 
-	/**
-	 * Retrieves all skills, based on their status.
-	 * 
-	 * @param bool
-	 *            True to retrieve all active skills, False to retrieve all inactive
-	 *            skills.
-	 * @return List of skills found.
-	 */
-	List<Skill> findAllByIsActive(boolean bool);
+	Skill findBySkillID(int id);
 
+	Skill findBySkillName(String name);
+
+	List<Skill> findAllByIsActive(boolean isActive);
+	
+	void deleteBySkillID(int id);
+
+	void deleteBySkillName(String name);
 }

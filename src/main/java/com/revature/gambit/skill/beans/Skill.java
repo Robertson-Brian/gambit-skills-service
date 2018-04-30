@@ -2,15 +2,7 @@ package com.revature.gambit.skill.beans;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Represents a specific skill such as Java, C#, Bash, Office, etc.
@@ -26,7 +18,7 @@ public class Skill {
 	@Id
 	@Column(name = "SKILL_ID")
 	@SequenceGenerator(name = "SKILL_ID_SEQ", sequenceName = "SKILL_ID_SEQ")
-	@GeneratedValue(generator = "SKILL_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator = "SKILL_ID_SEQ")
 	private int skillID;
 
 	/**
@@ -57,16 +49,16 @@ public class Skill {
 	/**
 	 * Constructor that initializes class fields.
 	 * 
-	 * @param skill_id
+	 * @param skillId
 	 *            ID that uniquely identifies a skill.
-	 * @param skill_name
+	 * @param skillName
 	 *            Name of the skill.
 	 * @param active
 	 *            Flag that will be used for soft deletes.
 	 */
-	public Skill(int skill_id, String skill_name, boolean active) {
-		this.skillID = skill_id;
-		this.skillName = skill_name;
+	public Skill(int skillId, String skillName, boolean active) {
+		this.skillID = skillId;
+		this.skillName = skillName;
 		this.isActive = active;
 	}
 

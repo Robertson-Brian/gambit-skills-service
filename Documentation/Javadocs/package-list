@@ -1,0 +1,5 @@
+com.revature.gambit.skill
+com.revature.gambit.skill.beans
+com.revature.gambit.skill.controllers
+com.revature.gambit.skill.repo
+com.revature.gambit.skill.services

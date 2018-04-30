@@ -1,25 +1,15 @@
 package com.revature.gambit.skill.controllers;
 
 import com.revature.gambit.skill.beans.SkillType;
-
-import java.io.UnsupportedEncodingException;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.revature.gambit.skill.services.ISkillTypeService;
 import com.revature.gambit.skill.services.SkillTypeService;
+
+import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Controller that will handle requests for the skill type service.
@@ -28,54 +18,90 @@ import com.revature.gambit.skill.services.SkillTypeService;
 public class SkillTypeController {
 
 	/**
-	 * Service that contains all the business logic (methods) to be executed for
-	 * this controller based on the request type.
-	 */
-	@Autowired
-	private SkillTypeService skillTypeService;
-
-	/**
 	 * Interface that contains all CRUD methods for skill type.
 	 */
 	@SuppressWarnings("unused")
 	@Autowired
-	private ISkillTypeService iskillTypeService;
+	private SkillTypeService skillTypeService;
 
 	/**
 	 * Handles incoming POST request that adds a new skill type to the DB.
-	 * 
+	 *
 	 * @param skillType
 	 *            Incoming data fields will be mapped into this SkillType object.
 	 * @return HTTP status code 201 (CREATED)
 	 */
-	@PostMapping("/skilltype")
-	public ResponseEntity<Void> create(@Valid @RequestBody SkillType skillType) {
-		this.skillTypeService.create(skillType);
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+	@PostMapping("/skillType")
+	public ResponseEntity<SkillType> create(@Valid @RequestBody SkillType skillType) {
+		return new ResponseEntity<>(this.skillTypeService.create(skillType),HttpStatus.CREATED);
+	}
+
+	@DeleteMapping("/skilltype/name/{name}")
+	public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable String name) {
+		SkillType skillType = skillTypeService.findBySkillTypeName(name);
+
+		if (skillType != null) {
+			skillType.setIsActive(false);
+			this.skillTypeService.update(skillType);
+		}
+		
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+
+
+	@DeleteMapping("/skilltype/{id}")
+	public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable int id) {
+		SkillType skillType = this.skillTypeService.findBySkillTypeId(id);
+
+		if (skillType != null) {
+			skillType.setIsActive(false);
+			this.skillTypeService.update(skillType);
+		}
+
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
 
 	/**
 	 * Handles incoming GET request that grabs all the skill types.
-	 * 
+	 *
 	 * @return Iterable object containing all the skill types retrieved along with
 	 *         HTTP status code 200 (OK)
 	 */
-	@GetMapping("/skilltype")
+	@GetMapping("/skillType")
 	public ResponseEntity<Iterable<SkillType>> findAll() {
-		ResponseEntity<Iterable<SkillType>> re = new ResponseEntity<Iterable<SkillType>>(this.skillTypeService.findByAll(), HttpStatus.OK);
-		System.out.println(re);
-		return re;
+		return new ResponseEntity<>(this.skillTypeService.findAll(), HttpStatus.OK);
 	}
 
 	/**
 	 * Handles incoming GET request that grabs a specific skill type.
-	 * 
+	 *
+	 * @param id
+	 *            Id of the skill type that needs to be retrieved.
+	 * @return Skill type along with HTTP status code 200 (OK) if found, HTTP status
+	 *         code 404 (NOT FOUND) otherwise.
+	 */
+	@GetMapping("/skillType/{id}")
+	public ResponseEntity<SkillType> findSkill(@PathVariable int id) {
+
+		SkillType skillType = this.skillTypeService.findBySkillTypeId(id);
+		if (skillType == null) {
+			return new ResponseEntity<SkillType>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<SkillType>(
+					this.skillTypeService.findBySkillTypeId(id),
+					HttpStatus.OK);
+		}
+	}
+
+	/**
+	 * Handles incoming GET request that grabs a specific skill type.
+	 *
 	 * @param name
 	 *            Name of the skill type that needs to be retrieved.
 	 * @return Skill type along with HTTP status code 200 (OK) if found, HTTP status
 	 *         code 404 (NOT FOUND) otherwise.
 	 */
-	@GetMapping("/skilltype/{name}")
+	@GetMapping("/skillType/name/{name}")
 	public ResponseEntity<SkillType> findSkill(@PathVariable String name) {
 		try {
 			SkillType skillType = this.skillTypeService.findBySkillTypeName(java.net.URLDecoder.decode(name, "UTF-8"));
@@ -95,7 +121,7 @@ public class SkillTypeController {
 	/**
 	 * Handles incoming PUT request that will update an existing skill type with a
 	 * new one.
-	 * 
+	 *
 	 * @param skillType
 	 *            Existing skill type will be updated with this one.
 	 * @param name
@@ -103,35 +129,40 @@ public class SkillTypeController {
 	 * @return HTTP status code 202 (ACCEPTED) if success, HTTP status code 404 (NOT
 	 *         FOUND) otherwise.
 	 */
-	@PutMapping(value = "/skilltype/{name}")
-	public ResponseEntity<Boolean> update(@Valid @RequestBody SkillType skillType, @PathVariable String name) {
+	@PutMapping(value = "/skillType/name/{name}")
+	public ResponseEntity<SkillType> update(@Valid @RequestBody SkillType skillType, @PathVariable String name) {
 		try {
-			boolean successful = this.skillTypeService.update(skillType, java.net.URLDecoder.decode(name, "UTF-8"));
-			if (successful == true) {
-				return new ResponseEntity<Boolean>(HttpStatus.ACCEPTED);
+			if (java.net.URLDecoder.decode(name, "UTF-8").equals(skillType.getSkillTypeName())) {
+				return new ResponseEntity<>(this.skillTypeService.update(skillType),HttpStatus.ACCEPTED);
 			} else {
-				return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	/**
-	 * Handles incoming DELETE request that will remove a skill type from the
-	 * system.
-	 * 
-	 * @param name
-	 *            Name of the skill type to delete.
-	 * @return HTTP status code 202 (ACCEPTED).
+	 * Handles incoming PUT request that will update an existing skill type with a
+	 * new one.
+	 *
+	 * @param skillType
+	 *            Existing skill type will be updated with this one.
+	 * @param id
+	 *            Id of the skill type to update.
+	 * @return HTTP status code 202 (ACCEPTED) if success, HTTP status code 404 (NOT
+	 *         FOUND) otherwise.
 	 */
-   @DeleteMapping("/skilltype/{name}")
-   public ResponseEntity<Void> deleteSkillTypeByName(@PathVariable String name) {
-   		skillTypeService.deleteBySkillTypeName(name);
-   		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-   }
+	@PutMapping(value = "/skillType/{id}")
+	public ResponseEntity<SkillType> update(@Valid @RequestBody SkillType skillType, @PathVariable int id) {
 
+		if ( id == skillType.getSkillTypeId()) {
+			return new ResponseEntity<>(this.skillTypeService.update(skillType),HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
+	}
 
 }

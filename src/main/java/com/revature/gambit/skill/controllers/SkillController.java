@@ -1,9 +1,8 @@
 package com.revature.gambit.skill.controllers;
 
-import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.gambit.skill.beans.Skill;
-import com.revature.gambit.skill.services.ISkillService;
 import com.revature.gambit.skill.services.SkillService;
 
 /**
@@ -32,93 +30,120 @@ public class SkillController {
 	@Autowired
 	private SkillService skillService;
 
-	/**
-	 * Interface that contains all CRUD methods for skill.
-	 */
-	@SuppressWarnings("unused")
-	@Autowired
-	private ISkillService iskillService;
 
 	/**
 	 * Handles incoming POST request that adds a new skill to the DB.
-	 * 
+	 *
 	 * @param skill
 	 *            Incoming data fields will be mapped into this object.
 	 * @return HTTP status code 201 (CREATED)
 	 */
 	@PostMapping("/skill")
-	public ResponseEntity<Void> create(@Valid @RequestBody Skill skill) {
-		this.skillService.create(skill);
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+	public ResponseEntity<Skill> create(@Valid @RequestBody Skill skill) {
+		return new ResponseEntity<>(this.skillService.create(skill),HttpStatus.CREATED);
 	}
 
 	/**
 	 * Handles incoming GET request that grabs all the skills.
-	 * 
-	 * @return Iterable object containing all the skills retrieved along with HTTP
+	 *
+	 * @return List object containing all the skills retrieved along with HTTP
 	 *         status code 200 (OK)
+	 * @return HTTP status code 204 (NO_CONTENT) if no skills exist.
 	 */
 	@GetMapping("/skill")
-	public ResponseEntity<Iterable<Skill>> findAll() {
-		return new ResponseEntity<Iterable<Skill>>(this.skillService.findAll(), HttpStatus.OK);
+	public ResponseEntity<List<Skill>> findAll() {
+		List<Skill> skills = (List<Skill>) this.skillService.findAll();
+
+		if (skills.isEmpty()) {
+			return new ResponseEntity<List<Skill>>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<List<Skill>>(skills, HttpStatus.OK);
+		}
 	}
 
-	/**
-	 * Handles incoming GET request that grabs all the skills that are currently
-	 * active.
-	 * 
-	 * @return Iterable interface containing all the skills retrieved.
-	 */
-	@GetMapping("/skill/active")
-	public Iterable<Skill> findActive() {
-		return this.skillService.findAllActive();
+	@GetMapping("/skill/name/{name}")
+	public ResponseEntity<Skill> findByName(@PathVariable String name) {
+		Skill skill = this.skillService.findBySkillName(name);
+
+		if (skill == null) {
+			return new ResponseEntity<Skill>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Skill>(this.skillService.findBySkillName(name), HttpStatus.OK);
+		}
 	}
 
-	/**
-	 * Handles incoming PUT request that will update an existing Skill with a new
-	 * one.
-	 * 
-	 * @param updatedSkill
-	 *            Existing skill will be updated with this one.
-	 * @return HTTP status code 202 (ACCEPTED).
-	 */
-	@PutMapping
-	public ResponseEntity<Void> update(@RequestBody Skill updatedSkill) {
-		this.skillService.saveSkill(updatedSkill);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	@GetMapping("/skill/{id}")
+	public ResponseEntity<Skill> findById(@PathVariable int id) {
+		Skill skill = this.skillService.findBySkillID(id);
+
+		if (skill == null) {
+			return new ResponseEntity<Skill>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Skill>(this.skillService.findBySkillID(id), HttpStatus.OK);
+		}
 	}
 	
 	/**
-	 * Hard delete here sole for convenience. Use update to do soft deletes. 
+	 * Soft delete by name. Sets the skill to inactive.
 	 * @param name
 	 * @return
 	 */
-    @DeleteMapping("/skill/{name}")
-    public ResponseEntity<Void> deleteSkillofName(@PathVariable String name) {
-    		skillService.deleteSkillViaName(name);
-    		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-    }
+	@DeleteMapping("/skill/name/{name}")
+	public ResponseEntity<Void> deleteBySkillName(@PathVariable String name) {
+		Skill skill = skillService.findBySkillName(name);
 
-
-	/**
-	 * Handles incoming GET request that grabs a specific skill.
-	 * 
-	 * @param name
-	 *            Name of the skill that needs to be retrieved.
-	 * @return Skill along with HTTP status code 200 (OK) if found, HTTP status code
-	 *         404 (NOT FOUND) otherwise.
-	 */
-
-	@GetMapping("/skill/{name}")
-	public ResponseEntity<Skill> findByName(@PathVariable String name) {
-		try {
-			return new ResponseEntity<Skill>(this.skillService.findByName(java.net.URLDecoder.decode(name, "UTF-8")),
-					HttpStatus.OK);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		if (skill != null) {
+			skill.setActive(false);
+			skillService.saveSkill(skill);
 		}
 
-		return new ResponseEntity<Skill>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Soft delete by id. Sets the skill to inactive.
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/skill/{id}")
+	public ResponseEntity<Void> deleteBySkillId(@PathVariable int id) {
+		Skill skill = this.skillService.findBySkillID(id);
+
+		if (skill != null) {
+			skill.setActive(false);
+			this.skillService.saveSkill(skill);
+		}
+
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+
+	/**
+	 * Handles incoming PUT requests to update skill
+	 *
+	 * @return Skill that was updated and status code 202 (ACCEPTED) if id in url and id in body match
+	 * 
+	 * @return HTTP status code 400 (BAD_REQUEST) if id from url and id from body don't match.
+	 */
+	@PutMapping("/skill/{id}")
+    public ResponseEntity<Skill> update(@PathVariable int id, @RequestBody Skill updatedSkill) {
+    	if(id == updatedSkill.getSkillID()) {
+    		return new ResponseEntity<Skill>(skillService.saveSkill(updatedSkill), HttpStatus.ACCEPTED);
+    	} else {
+    		return new ResponseEntity<Skill>(HttpStatus.BAD_REQUEST);
+    	}
+    }
+	
+	/**
+	 * Handles incoming Get requests to find all active skills.
+	 * @return HTTP status code 200 if there are active skills, 204 if there are no active skills
+	 */
+	@GetMapping("/skill/active")
+	public ResponseEntity<List<Skill>> findAllActive() {
+		List<Skill> skills = this.skillService.findAllActive();
+		
+		if (skills.isEmpty())
+			return new ResponseEntity<List<Skill>>(HttpStatus.NO_CONTENT);
+		
+		return new ResponseEntity<List<Skill>>(skills, HttpStatus.OK);
+	}
 }
