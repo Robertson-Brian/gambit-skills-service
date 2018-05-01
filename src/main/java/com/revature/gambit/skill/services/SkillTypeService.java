@@ -1,11 +1,6 @@
 package com.revature.gambit.skill.services;
 
 import com.revature.gambit.skill.beans.SkillType;
-<<<<<<< HEAD
-import com.revature.gambit.skill.repo.SkillTypeRepository;
-import com.revature.gambit.skill.util.LoggingUtil;
-=======
->>>>>>> dev
 
 /**
  * API defining all the methods the skill type service will implement.
@@ -62,7 +57,7 @@ public interface SkillTypeService {
 	 *            Name of the skill type to delete.
 	 */
 	public void deleteBySkillTypeName(String name);
-	
+
 	/**
 	 * Deletes a skill type based on its id.
 	 * 

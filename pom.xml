@@ -183,44 +183,40 @@
 		<plugins>
 			<!-- Javadocs Plugin -->
 			<plugin>
-<<<<<<< HEAD
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.9</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                            <propertyName>surefireArgLine</propertyName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>post-unit-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.9</version>
+					<executions>
+							<execution>
+									<goals>
+											<goal>prepare-agent</goal>
+									</goals>
+							</execution>
+							<execution>
+									<id>report</id>
+									<phase>prepare-package</phase>
+									<goals>
+											<goal>report</goal>
+									</goals>
+									<configuration>
+											<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+											<propertyName>surefireArgLine</propertyName>
+									</configuration>
+							</execution>
+							<execution>
+									<id>post-unit-test</id>
+									<phase>test</phase>
+									<goals>
+											<goal>report</goal>
+									</goals>
+									<configuration>
+											<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+											<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+									</configuration>
+							</execution>
+					</executions>
+			</plugin>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-=======
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.0.0</version>
@@ -228,7 +224,6 @@
 					<reportOutputDirectory>Documentation</reportOutputDirectory>
 					<destDir>Javadocs</destDir>
 				</configuration>
->>>>>>> dev
 			</plugin>
 			<!--Docker Maven Plugin from Spotify -->
 			<!--Abstracts the process of creating Docker images from Java projects -->

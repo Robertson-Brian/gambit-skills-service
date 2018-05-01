@@ -21,11 +21,9 @@ import com.revature.gambit.skill.controllers.SkillTypeController;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,10 +59,8 @@ public class SkillTypeControllerTests {
 		String json = gson.toJson(skill1);
 
 		when(skillTypeService.create(skill1)).thenReturn(skill1);
-		mvc.perform(MockMvcRequestBuilders.post("/skillType/")
-				.contentType(MediaType.APPLICATION_JSON).content(json)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isCreated());
+		mvc.perform(MockMvcRequestBuilders.post("/skillType/").contentType(MediaType.APPLICATION_JSON).content(json)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 	}
 
 	@Test
@@ -76,15 +72,13 @@ public class SkillTypeControllerTests {
 
 		// Delete the newly added skill.
 		mvc.perform(MockMvcRequestBuilders.delete("/skilltype/{id}", skillType.getSkillTypeId())
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isAccepted());
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isAccepted());
 	}
-	
+
 	@Test
 	public void testDeleteSkillTypeNameInvalidID() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.delete("/skilltype/{id}", 1000)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isAccepted());
+		mvc.perform(MockMvcRequestBuilders.delete("/skilltype/{id}", 1000).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted());
 	}
 
 	@Test
@@ -94,16 +88,14 @@ public class SkillTypeControllerTests {
 		SkillType expectedSkillType = new SkillType(1, "Test", "Test delete by id", false, true);
 		when(skillTypeService.update(skillType)).thenReturn(expectedSkillType);
 
-		mvc.perform(MockMvcRequestBuilders.delete("/skilltype/name/{name}", "Test")
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isAccepted());
+		mvc.perform(MockMvcRequestBuilders.delete("/skilltype/name/{name}", "Test").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted());
 	}
-	
+
 	@Test
 	public void testDeleteSkillTypeNameInvalidName() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.delete("/skilltype/name/{name}", "Tests")
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isAccepted());
+		mvc.perform(MockMvcRequestBuilders.delete("/skilltype/name/{name}", "Tests").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted());
 	}
 
 	@Test
@@ -116,10 +108,8 @@ public class SkillTypeControllerTests {
 
 		when(skillTypeService.findAll()).thenReturn((List<SkillType>) skills);
 
-		mvc.perform(MockMvcRequestBuilders.get("/skillType")
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk());
-
+		mvc.perform(MockMvcRequestBuilders.get("/skillType").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -133,14 +123,11 @@ public class SkillTypeControllerTests {
 		when(skillTypeService.findBySkillTypeId(100)).thenReturn(((List<SkillType>) skills).get(0));
 		when(skillTypeService.findBySkillTypeId(101)).thenReturn(((List<SkillType>) skills).get(1));
 
-		mvc.perform(MockMvcRequestBuilders.get("/skillType/{id}", 100)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk());
+		mvc.perform(MockMvcRequestBuilders.get("/skillType/{id}", 100).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 
-		mvc.perform(MockMvcRequestBuilders.get("/skillType/{id}", 101)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk());
-
+		mvc.perform(MockMvcRequestBuilders.get("/skillType/{id}", 101).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -154,16 +141,12 @@ public class SkillTypeControllerTests {
 		when(skillTypeService.findBySkillTypeName("Java")).thenReturn(((List<SkillType>) skills).get(0));
 		when(skillTypeService.findBySkillTypeName("Fortran")).thenReturn(((List<SkillType>) skills).get(1));
 
-		mvc.perform(MockMvcRequestBuilders.get("/skillType/name/{name}", "Java")
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk());
+		mvc.perform(MockMvcRequestBuilders.get("/skillType/name/{name}", "Java").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 
-		mvc.perform(MockMvcRequestBuilders.get("/skillType/name/{name}", "Fortran")
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk());
-
+		mvc.perform(MockMvcRequestBuilders.get("/skillType/name/{name}", "Fortran").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
-
 
 	@Test
 	public void putSkillByNameType() throws Exception {
@@ -174,13 +157,10 @@ public class SkillTypeControllerTests {
 
 		when(skillTypeService.update(skill1)).thenReturn(skill1);
 
-		mvc.perform(MockMvcRequestBuilders.put("/skillType/name/{id}", "Java")
-				.contentType(MediaType.APPLICATION_JSON).content(json)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isAccepted());
+		mvc.perform(MockMvcRequestBuilders.put("/skillType/name/{id}", "Java").contentType(MediaType.APPLICATION_JSON)
+				.content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isAccepted());
 
 	}
-
 
 	@Test
 	public void putSkillTypeNameFailed() throws Exception {
@@ -191,10 +171,8 @@ public class SkillTypeControllerTests {
 
 		when(skillTypeService.update(skill1)).thenReturn(skill1);
 
-		mvc.perform(MockMvcRequestBuilders.put("/skillType/name/{name}", "jv")
-				.contentType(MediaType.APPLICATION_JSON).content(json)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isNotFound());
+		mvc.perform(MockMvcRequestBuilders.put("/skillType/name/{name}", "jv").contentType(MediaType.APPLICATION_JSON)
+				.content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -206,13 +184,9 @@ public class SkillTypeControllerTests {
 
 		when(skillTypeService.update(skill1)).thenReturn(skill1);
 
-		mvc.perform(MockMvcRequestBuilders.put("/skillType/{id}", 100)
-				.contentType(MediaType.APPLICATION_JSON).content(json)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isAccepted());
-
+		mvc.perform(MockMvcRequestBuilders.put("/skillType/{id}", 100).contentType(MediaType.APPLICATION_JSON)
+				.content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isAccepted());
 	}
-
 
 	@Test
 	public void putSkillTypeByIdFailed() throws Exception {
@@ -223,11 +197,8 @@ public class SkillTypeControllerTests {
 
 		when(skillTypeService.update(skill1)).thenReturn(skill1);
 
-		mvc.perform(MockMvcRequestBuilders.put("/skillType/{id}", 101)
-				.contentType(MediaType.APPLICATION_JSON).content(json)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isNotFound());
-
+		mvc.perform(MockMvcRequestBuilders.put("/skillType/{id}", 101).contentType(MediaType.APPLICATION_JSON)
+				.content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
 	}
-*/
+
 }
